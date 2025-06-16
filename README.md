@@ -2,7 +2,7 @@
 🛍️ Paridot – MERN Stack eCommerce Application
 Paridot is a full-featured eCommerce web application built using the MERN stack (MongoDB, Express.js, React.js, and Node.js). It is designed to offer a modern and seamless shopping experience with dynamic product management, secure authentication, and efficient backend integration.
 
-🔧 Technologies Used:
+🔧 Technologies Used
 MongoDB – NoSQL database for storing user, product, and order data.
 
 Express.js – RESTful API server to handle backend logic and routes.
