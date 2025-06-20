@@ -18,7 +18,11 @@ app.use(express.json());
 // (Optional) Add this if using URL-encoded data (like from forms)
 app.use(express.urlencoded({ extended: true }));
 // (Optional) Enable CORS
-app.use(cors());
+app.use(cors({
+  origin:true,
+  methods:["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
 
 //home
 app.get('/',(req,res)=>{

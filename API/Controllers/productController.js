@@ -95,9 +95,6 @@ export const updateProductByID = async (req, res) => {
             fields.qty = qtyNum;
         }
 
-
-
-
         let product = await ProductModel.findByIdAndUpdate(
             id,
             fields,
