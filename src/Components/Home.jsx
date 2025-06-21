@@ -8,14 +8,14 @@ const Home = () => {
     // for slideshow
      const interval = setInterval(() => {
       setCurrentProduct((prevIndex) => (prevIndex + 1) % products.length);
-    }, 3000); // every 3 seconds
+    }, 3000);
 
     return () => clearInterval(interval)
   }, [products]);
 
    if (!Array.isArray(products) || products.length === 0) {
     return (
-      <div className="w-full h-96 flex items-center justify-center text-gray-500">
+      <div className="w-96 h-96 flex items-center justify-center text-gray-500">
         Loading slideshow...
       </div>
     );
