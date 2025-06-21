@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Paridot-MERN-Stack-eCommerce-Application
 🛍️ Paridot – MERN Stack eCommerce Application
 Paridot is a full-featured eCommerce web application built using the MERN stack (MongoDB, Express.js, React.js, and Node.js). It is designed to offer a modern and seamless shopping experience with dynamic product management, secure authentication, and efficient backend integration.
@@ -51,3 +52,17 @@ Provide an end-to-end functional eCommerce platform.
 Learn full-stack development using modern tools.
 
 Practice RESTful API development and secure user handling.
+=======
+# React + Vite
+
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+
+Currently, two official plugins are available:
+
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+
+## Expanding the ESLint configuration
+
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+>>>>>>> c0a6140 (slideshow manually)
