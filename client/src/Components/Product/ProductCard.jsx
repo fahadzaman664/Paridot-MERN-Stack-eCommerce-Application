@@ -1,57 +1,63 @@
 import { useContext, useState } from "react";
 import AppContext from "../../Context/AppContext";
 const ProductCard = () => {
-    const { products } = useContext(AppContext);
-    const [hovered, setHovered] = useState({});
+  const { products } = useContext(AppContext);
+  const [hovered, setHovered] = useState({});
 
-    const handleHover = (id, isHovering) => {
-        setHovered((prev) => {
-            return { ...prev, [id]: isHovering };
-        });
-    };
+  const handleHover = (id, isHovering) => {
+    setHovered((prev) => {
+      return { ...prev, [id]: isHovering };
+    });
+  };
+// "bg-white h-full w-80 flex flex-col justify-center relative group
+  return (
+    <div className=" flex flex-wrap justify-center gap-x-10 gap-y-10 mt-20 mb-20 ">
+      {(products || []).map((product) => (
+        <div
+          className="bg-white h-full w-80 flex flex-col justify-center relative group"
+          key={product._id}
+        >
+          <div
+            className="w-full h-96 object-cover overflow-hidden relative "
+            onMouseEnter={() => handleHover(product._id, true)}
+            onMouseLeave={() => handleHover(product._id, false)}
+          >
+            <img
+              className=" w-full h-full object-cover hover:scale-105 transition delay-150 duration-700 ease-in-out "
+              src={
+                product.imgSrc === "empty"
+                  ? "/mobileimagedefualt.jpeg"
+                  : hovered[product._id]
+                  ? "/mobileimagedefualt.jpeg"
+                  : product.imgSrc
+              }
+              alt="Product Image"
+              loading="lazy"
+            />
+          </div>
 
-    return (
-        <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 px-4">
-            {(products || []).map((product) => (
-                <div className=" mt-6 bg-white rounded-lg shadow hover:shadow-lg p-4 transition-transform hover:scale-105"
-                    key={product._id}
-                >
-                    <div className="w-full object-cover overflow-hidden rounded-md"
-                        onMouseEnter={() => handleHover(product._id, true)}
-                        onMouseLeave={() => handleHover(product._id, false)}
-                    >
-                        <img className=" object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
-                            src={
-                                product.imgSrc === "empty"
-                                    ? "/mobileimagedefualt.jpeg"
-                                    : hovered[product._id]
-                                        ? "/mobileimagedefualt.jpeg"
-                                        : product.imgSrc
-                            }
-                            alt="Product Image"
-                            loading="lazy"
+          <div className="text-left mt-4">
+            <div className="flex justify-between items-center">
+              <p className="text-lg font-semibold text-gray-900 dark:text-white">
+                {product.title}
+              </p>
 
-                        />
-                    </div>
-
-                    <div className="text-center  mt-4">
-                        <p className="text-lg font-semibold text-gray-900 dark:text-white">
-                            {product.title}
-                        </p>
-                      
-                            <span className=" mt-2 block text-sm text-gray-500 dark:text-gray-400">
-                                {product.description}
-                            </span>
-
-                            <b className="block mt-2 text-red-600 dark:text-green-400 font-semibold">
-                                Rs. {product.price}
-                            </b>
-                       
-                    </div>
-                </div>
-            ))}
+              {/* Hoverable Button */}
+              <button className={`bg-black text-white text-xs px-3 py-2 rounded-md transition duration-300 ${
+                hovered[product._id] ? 'opacity-100' : 'opacity-0'}`}>
+                Add to Cart
+              </button>
+            </div>
+            <div className="flex justify-between items-center mt-2">
+              <b className="text-red-600 dark:text-green-400 font-semibold">
+                Rs. {product.price}
+              </b>
+            </div>
+          </div>
         </div>
-    );
+      ))}
+    </div>
+  );
 };
 
 export default ProductCard;
