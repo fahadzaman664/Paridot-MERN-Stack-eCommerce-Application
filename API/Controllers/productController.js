@@ -6,13 +6,13 @@ export const addProduct = async (req, res) => {
         // Validate and clean fields
         const fields = { title, description, category, price, qty, imgSrc };
 
-        if (fields.price != null) {
-            const priceNum = Number(fields.price);
-            if (isNaN(priceNum) || priceNum < 0) {
-                return res.status(400).json({ message: 'Price must be a valid non-negative number', success: false });
-            }
-            fields.price = priceNum;
-        }
+        // if (fields.price != null) {
+        //     const priceNum = Number(fields.price);
+        //     if (isNaN(priceNum) || priceNum < 0) {
+        //         return res.status(400).json({ message: 'Price must be a valid non-negative number', success: false });
+        //     }
+        //     fields.price = priceNum;
+        // }
 
         // Safely parse and validate qty
         if (fields.qty != null) {
