@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import AppContext from "../Context/AppContext";
-const Home = () => {
+const SlideShow= () => {
   const { products } = useContext(AppContext);
   const [currentP, setCurrentProduct] = useState(0);
 
@@ -39,4 +39,4 @@ const Home = () => {
        
 };
 
-export default Home;
+export default SlideShow;

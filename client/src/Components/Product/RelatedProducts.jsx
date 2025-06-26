@@ -1,5 +1,5 @@
 import AppContext from "../../Context/AppContext";
-import React, { useContext, useState } from "react";
+import  { useContext, useState } from "react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
@@ -47,7 +47,7 @@ const RelatedProducts = ({ category }) => {
                                 onMouseLeave={() => handleHover(product._id, false)}
                             >
                                 <Link
-                                    to={`/product/${product._id}`}
+                                      to={`/product/${product._id}`}
                                     className="w-full h-96 object-cover overflow-hidden relative "
                                 >
                                     <img
