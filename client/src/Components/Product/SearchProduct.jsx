@@ -1,12 +1,17 @@
 import AppContext from "../../Context/AppContext";
 import { useContext, useState } from "react";
 import { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const SearchProduct = () => {
   const { products } = useContext(AppContext);
   const [hovered, setHovered] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
   const [searchProduct, setSearchProduct] = useState([]);
+
+
+  const navigate = useNavigate();
+
   const { term } = useParams();
 
   const handleHover = (id, isHovering) => {
@@ -16,16 +21,51 @@ const SearchProduct = () => {
   };
 
   useEffect(() => {
+    if (!term) {
+      // Redirect or show a message if there's no search term
+      navigate("/"); // Or any page you want
+      return;
+    }
+    setIsLoading(true);
     if (products && term) {
       const filtered = products.filter((data) =>
-        data.title.toLowerCase().includes(term.toLowerCase())
+        data.title.toLowerCase().includes(term.trim().toLowerCase())
       );
       setSearchProduct(filtered);
     }
-  }, [term, products]);
+    setTimeout(() => setIsLoading(false), 500);
+  }, [term, products, navigate]);
 
-  if (searchProduct.length === 0) {
-    return <div className="p-6 text-center">No matching product found...</div>;
+  // for highliting text in product card while searching
+  const highlightMatch = (text, search) => {
+    if (!search) return text;
+    const regex = new RegExp(`(${search})`, "gi");
+    return text.split(regex).map((part, index) =>
+      part.toLowerCase() === search.toLowerCase() ? (
+        <span key={index} className="bg-yellow-200">
+          {part}
+        </span>
+      ) : (
+        part
+      )
+    );
+  };
+
+  // Show spinner while loading
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center py-10">
+        <div className="w-12 h-12 border-4 border-t-red-500 border-b-transparent border-l-transparent border-r-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
+  if (!isLoading && searchProduct.length === 0) {
+    return (
+      <div className="p-6 text-center text-lg font-semibold">
+        No matching product found...
+      </div>
+    );
   }
   return (
     <div>
@@ -33,7 +73,7 @@ const SearchProduct = () => {
         <div className="block">
           <div className="p-2 mt-10 w-fit mx-auto flex justify-center rounded-md">
             <h1 className=" text-red font-bold underline decoration-pink-500/30 text-2xl  ">
-              SEARCH PRODUCTS
+              matched products
             </h1>
           </div>
 
@@ -63,12 +103,13 @@ const SearchProduct = () => {
                   />
                 </Link>
 
-                <div className=" mt-4 ">
-                  <div className="flex justify-between items-center ">
+               <div className="mt-4">
+                  <div className="flex justify-between items-center">
                     <p className="text-lg font-semibold text-gray-900 dark:text-white">
-                      {product.title}
+                      {highlightMatch(product.title, term)}
                     </p>
                   </div>
+
                   <div>
                     {hovered[product._id] && (
                       <div className=" absolute bottom-5 right-5  ">

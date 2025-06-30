@@ -15,13 +15,6 @@ export const register = async (req, res) => {
         if (db) {
             return res.status(400).json({ message: 'User already exists', success: false });
         }
-        const isStrong = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
-
-        if (!isStrong.test(password)) {
-            return res.status(400).json({
-                message: "Password must contain at least 1 uppercase, 1 lowercase, 1 number, 1 special character, and be 8+ characters.",
-            });
-        }
 
         const hashPassword = await bcrypt.hash(password, 10)
 
