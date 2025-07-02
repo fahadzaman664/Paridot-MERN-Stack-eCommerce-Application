@@ -22,7 +22,7 @@ const Login = () => {
     const login = await userLogin(email, password);
     // success comes from api call backend/server
     if (login.success) {
-      setAlert({ color: "success", message: "Login successful!" });
+      setAlert({ color: "success", message: login?.message });
       setEmail("");
       setPassword("");
 

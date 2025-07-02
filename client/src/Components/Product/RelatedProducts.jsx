@@ -19,7 +19,7 @@ const RelatedProducts = ({ category }) => {
       const filtered = products.filter(
         (data) =>
           data.category &&
-          data.category.toLowerCase() === category.toLowerCase()
+          data.category.toLowerCase() === category.toLowerCase()       
       );
       setRelatedProducts(filtered);
     }

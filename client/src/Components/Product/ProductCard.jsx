@@ -1,8 +1,9 @@
 import { useContext, useState } from "react";
 import AppContext from "../../Context/AppContext";
 import { Link } from "react-router-dom";
+import { ToastContainer, toast, Bounce } from "react-toastify";
 const ProductCard = () => {
-  const { products } = useContext(AppContext);
+  const { filteredData, addToCart, setCart } = useContext(AppContext);
   const [hovered, setHovered] = useState({});
 
   const handleHover = (id, isHovering) => {
@@ -10,10 +11,28 @@ const ProductCard = () => {
       return { ...prev, [id]: isHovering };
     });
   };
-  // "bg-white h-full w-80 flex flex-col justify-center relative group
+
+  const onClickAddToCart = async (title, price, qty, productId, imgSrc) => {
+    const response = await addToCart(title, price, qty, productId, imgSrc);
+    if (response.success) {
+
+      toast.success(response.message, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+    }
+  };
+
   return (
     <div className=" flex flex-wrap justify-center gap-x-5 gap-y-10 mt-20 mb-20 ">
-      {(products || []).map((product) => (
+      {(filteredData || []).map((product) => (
         <div
           className="bg-white h-full w-80 flex flex-col justify-center relative "
           key={product._id}
@@ -30,8 +49,8 @@ const ProductCard = () => {
                 product.imgSrc === "empty"
                   ? "/mobileimagedefualt.jpeg"
                   : hovered[product._id]
-                    ? "/mobileimagedefualt.jpeg"
-                    : product.imgSrc
+                  ? "/mobileimagedefualt.jpeg"
+                  : product.imgSrc
               }
               alt="Product Image"
               loading="lazy"
@@ -47,8 +66,17 @@ const ProductCard = () => {
             <div>
               {hovered[product._id] && (
                 <div className=" absolute bottom-5 right-5  ">
-
-                  <button className="relative bg-black text-white w-30 h-[42px] rounded-md cursor-pointer overflow-hidden group "
+                  <button
+                    className="relative bg-black text-white w-30 h-[42px] rounded-md cursor-pointer overflow-hidden group "
+                    onClick={() =>
+                      onClickAddToCart(
+                        product.title,
+                        product.price,
+                        1,
+                        product._id,
+                        product.imgSrc
+                      )
+                    }
                   >
                     <span className="absolute inset-0 flex items-center justify-center transition-opacity duration-200 opacity-0 group-hover:opacity-100 z-20">
                       🛒
@@ -57,8 +85,6 @@ const ProductCard = () => {
                     <span className="absolute inset-0 flex items-center justify-center transition-opacity duration-200 opacity-100 group-hover:opacity-0   z-10">
                       Add to Cart
                     </span>
-
-
                   </button>
                 </div>
               )}

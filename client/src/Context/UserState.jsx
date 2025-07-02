@@ -1,14 +1,51 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import UserContext from "./UserContext";
 import axios from "axios";
 const UserState = (props) => {
-  const url = "http://localhost:1000";
+  const loginUrl = "http://localhost:1000";
+
+  const [token, setToken] = useState("");
+  const [isAuthenticated, setIsAthenticated] = useState(false);
+
+  const [userProfile, setUserProfile] = useState("");
+
+  useEffect(() => {
+    const savedToken = localStorage.getItem("token");
+    if (savedToken) {
+      setToken(savedToken);
+      setIsAthenticated(true);
+    }
+  }, []); // runs once on mount: loads token
+
+  useEffect(() => {
+    if (!token) return; // skip fetch if token not loaded yet
+    const fetchUserProfile = async () => {
+      try {
+        const api = await axios.get(`${loginUrl}/api/user/profile`, {
+          headers: {
+            "Content-Type": "application/json",
+            Auth: token,
+          },
+          withCredentials: true,
+        });
+        setUserProfile(api.data.userProfile);
+
+      } catch (error) {
+        console.error(
+          "Failed to fetch products:",
+          error.response?.data || error.message
+        );
+      }
+    };
+
+    fetchUserProfile();
+  }, [token]);
 
   // for signup
   const registerUser = async (email, name, password) => {
     try {
       const response = await axios.post(
-        `${url}/api/user/register`,
+        `${loginUrl}/api/user/register`,
         {
           email,
           name,
@@ -20,8 +57,7 @@ const UserState = (props) => {
       );
 
       const data = response.data;
-      return { success: true, data };
-      
+      return { success: true, message: data.message, data };
     } catch (error) {
       console.error("Registration failed:", error);
       return {
@@ -35,7 +71,7 @@ const UserState = (props) => {
   const userLogin = async (email, password) => {
     try {
       const response = await axios.post(
-        `${url}/api/user/login`,
+        `${loginUrl}/api/user/login`,
         {
           email,
           password,
@@ -48,7 +84,9 @@ const UserState = (props) => {
 
       if (data.success) {
         localStorage.setItem("token", data.token);
-        return { success: true, data };
+        setToken(data.token);
+        setIsAthenticated(true);
+        return { success: true, message: data.message, data };
       } else {
         return { success: false, message: data.message || "Login failed." };
       }
@@ -62,7 +100,18 @@ const UserState = (props) => {
   };
 
   return (
-    <UserContext.Provider value={{ registerUser, userLogin }}>
+    <UserContext.Provider
+      value={{
+        registerUser,
+        userLogin,
+        token,
+        isAuthenticated,
+        loginUrl,
+        setToken,
+        setIsAthenticated,
+        userProfile
+      }}
+    >
       {props.children}
     </UserContext.Provider>
   );

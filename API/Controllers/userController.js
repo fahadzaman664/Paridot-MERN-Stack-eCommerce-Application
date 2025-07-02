@@ -55,15 +55,15 @@ export const login = async (req, res) => {
 
         const token = jwt.sign(
             {
-                userId: user._id 
+                userId: user._id
             },
-             process.env.customjwttoken,
+            process.env.customjwttoken,
             {
-              expiresIn: '365d'
+                expiresIn: '365d'
             }
         );
 
-        res.status(201).json({message:`Welcome ${user.name}`,token: token, success: true})
+        res.status(201).json({ message: `Welcome ${user.name}`, token: token, success: true })
 
     } catch (error) {
         console.error(error);
@@ -73,17 +73,37 @@ export const login = async (req, res) => {
 }
 
 // get all user
-export const getallusers = async (req, res)=>{
+export const getallusers = async (req, res) => {
     try {
         let users = await UserModel.find().sort({ createdAt: -1 });
         if (users.length === 0) {
             return res.json({ message: 'users not exist', success: false })
         }
 
-        res.status(201).json({message:'all present user fetched', users: users, success:true})
+        res.status(201).json({ message: 'all present user fetched', users: users, success: true })
 
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'internal Server error' });
     }
+}
+
+
+// user profile
+export const userProfile = async (req, res) => {
+
+    try {
+        const userId = req.user;
+        const profile = await UserModel.findOne({_id: userId });
+        if(!profile){
+             return res.json({ message: ' no user profile' })
+        }
+        const { password: _, ...userWithoutPassword } = profile._doc;
+        return res.status(201).json({ message: ' current user profile', userProfile: userWithoutPassword })
+
+    } catch (error) {
+        res.status(500).json({ message: 'internal Server error' });
+
+    }
+
 }

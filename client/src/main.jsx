@@ -7,10 +7,10 @@ import UserState from "./Context/UserState";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <AppState>
-      <UserState>
+    <UserState>
+      <AppState>
         <App />
-      </UserState>
-    </AppState>
+      </AppState>
+    </UserState>
   </StrictMode>
 );

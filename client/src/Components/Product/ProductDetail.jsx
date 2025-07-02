@@ -35,7 +35,6 @@ const ProductDetail = () => {
           withCredentials: true,
         });
         setProduct(api.data.product);
-        console.log(api.data);
       } catch (error) {
         console.error("Failed to fetch product");
       }

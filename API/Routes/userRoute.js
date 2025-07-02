@@ -1,5 +1,6 @@
 import express from 'express' 
-import { getallusers, login, register } from '../Controllers/userController.js';
+import { getallusers, login, register, userProfile } from '../Controllers/userController.js';
+import { isAuthenticated } from '../Middleware/Auth.js';
 
 const userRouter = express.Router();
 
@@ -14,5 +15,8 @@ userRouter.post('/login', login)
 // user login
 // api -> /api/user/getalluser
 userRouter.get('/getallusers', getallusers)
+
+// user profile
+userRouter.get('/profile',isAuthenticated, userProfile )
 
 export default userRouter;
