@@ -3,7 +3,18 @@ import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import { ToastContainer, toast, Bounce } from "react-toastify";
+import { toast, Bounce } from "react-toastify";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/drawer";
 import {
   Dialog,
   DialogBackdrop,
@@ -17,12 +28,20 @@ const Navbar = () => {
   const [search, setSearchTerm] = useState("");
   const navigate = useNavigate();
   const [suggestion, setsuggestion] = useState("");
-  const { products, setFilteredData, cart } = useContext(AppContext);
+  const {
+    products,
+    setFilteredData,
+    cart,
+    latestCart,
+    cartSheetOpen,
+    setCartSheetOpen,
+    lastAddedProduct,
+  } = useContext(AppContext);
   const { setIsAthenticated, setToken, isAuthenticated } =
     useContext(UserContext);
   const [open, setOpen] = useState(false);
 
-  console.log("cart", cart)
+  console.log("cart", cart);
   // submenu / filtering base on category
   const filterByCategory = (cat) => {
     setFilteredData(
@@ -178,9 +197,13 @@ const Navbar = () => {
           {isAuthenticated && (
             <>
               <div className="relative">
-                <button className="hover:bg-white hover:text-red-500 cursor-pointer text-black px-4 py-2 rounded-md transition">
-                  Cart
-                </button>
+                <Link to={"/cart"}>
+                  <button className="hover:bg-white hover:text-red-500 cursor-pointer text-black px-4 py-2 rounded-md transition">
+                    <span>
+                      <FontAwesomeIcon icon={faCartShopping} />
+                    </span>{" "}
+                  </button>
+                </Link>
                 {cart?.items && cart.items.length > 0 && (
                   <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full px-2 py-0.5">
                     {cart.items.length}
@@ -355,6 +378,58 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+      <Drawer open={cartSheetOpen} onOpenChange={setCartSheetOpen}>
+        <DrawerContent className="bg-white border-l max-w-[400px] w-full p-4 shadow-xl">
+          <DrawerHeader>
+            <DrawerTitle>Item Added to Cart</DrawerTitle>
+            <DrawerDescription>
+              Review your latest added item below:
+            </DrawerDescription>
+          </DrawerHeader>
+
+          <div className="flex items-center space-x-4 py-4">
+            {lastAddedProduct ? (
+              <div className="flex items-center space-x-4">
+                <img
+                  src={
+                    lastAddedProduct.imgSrc || "https://via.placeholder.com/60"
+                  }
+                  alt={lastAddedProduct.title}
+                  className="w-16 h-16 object-cover rounded"
+                />
+                <div>
+                  <h4 className="font-semibold">{lastAddedProduct.title}</h4>
+                  <p className="text-sm text-gray-600">
+                    Quantity: {lastAddedProduct.qty}
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    Price: Rs. {lastAddedProduct.price}
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <p>No recent product added.</p>
+            )}
+          </div>
+
+          <DrawerFooter className="flex justify-end gap-2">
+            <DrawerClose asChild>
+              <button className="px-4 py-2 border rounded text-gray-700 hover:bg-gray-100">
+                Continue Shopping
+              </button>
+            </DrawerClose>
+            <button
+              onClick={() => {
+                setCartSheetOpen(false);
+                navigate("/cart");
+              }}
+              className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+            >
+              Go to Cart
+            </button>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
     </div>
   );
 };

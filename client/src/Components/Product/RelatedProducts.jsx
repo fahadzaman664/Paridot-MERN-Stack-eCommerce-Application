@@ -87,7 +87,7 @@ const RelatedProducts = ({ category }) => {
                                     </div>
                                     <div className="flex justify-between items-center mt-2">
                                         <b className="text-red-600 dark:text-green-400 font-semibold">
-                                            Rs. {product.price}
+                                            Rs. {product.price.toLocaleString()}
                                         </b>
                                     </div>
                                 </div>

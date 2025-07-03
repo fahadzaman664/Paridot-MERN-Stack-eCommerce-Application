@@ -8,6 +8,12 @@ const AppState = (props) => {
   const [filteredData, setFilteredData] = useState([]);
   const [products, setProduct] = useState([]);
   const [cart, setCart] = useState([]);
+  const [reload, setReload]= useState(false);
+  const [latestCart, setLatestCart] = useState([]);
+  const [cartSheetOpen, setCartSheetOpen] = useState(false); // 👈 global drawer 
+  // state
+  const [lastAddedProduct, setLastAddedProduct] = useState(null);
+
 
   useEffect(() => {
     const savedToken = localStorage.getItem("token");
@@ -20,7 +26,7 @@ const AppState = (props) => {
   useEffect(() => {
     if (!token) return; // skip fetch if token not loaded yet
     getUserCart();
-  }, [token]);
+  }, [token, reload]);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -66,7 +72,7 @@ const AppState = (props) => {
       const data = api.data;
 
       if (data.success) {
-        setCart(data.cart);
+        setReload(!reload);
         return { success: true, message: data.message, data:data.cart};
       } else {
         return { success: false, message: data.message || "Login failed." };
@@ -92,8 +98,8 @@ const AppState = (props) => {
 
       const data = api.data;
       if (data.success) {
-        setCart(data.cart);
-        
+        setCart(data.cart);   
+        setLatestCart(data.cart); 
       }
     } catch (error) {
       console.error(
@@ -112,6 +118,10 @@ const AppState = (props) => {
         addToCart,
         cart,
         setCart,
+        setCartSheetOpen,
+        cartSheetOpen,
+        latestCart,
+        lastAddedProduct, setLastAddedProduct
       }}
     >
       {props.children}
