@@ -11,6 +11,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // import once globally
 import Profile from "./Components/User/Profile";
 import Cart from "./Components/Cart";
+import Address from "./Components/Address";
+import CheckOut from "./Components/Checkout";
 
 const App = () => {
   return (
@@ -37,8 +39,13 @@ const App = () => {
             <Route path="/Login" element={<Login />}></Route>
             <Route path="/profile" element={<Profile />}></Route>
             <Route path="/product/:id" element={<ProductDetail />}></Route>
-            <Route  path="/product/search/:term?" element={<SearchProduct />}></Route>
-            <Route  path="/cart" element = {<Cart />}/>
+            <Route
+              path="/product/search/:term?"
+              element={<SearchProduct />}
+            ></Route>
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/checkout/address" element={<Address />} />
+            <Route path="/Checkout" element={<CheckOut />} />
           </Routes>
         </div>
       </Router>

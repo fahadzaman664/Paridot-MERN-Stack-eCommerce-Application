@@ -7,15 +7,17 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useEffect } from "react";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Cart = () => {
-  const { cart, decreaseQuantity, addToCart, removeProductById, clearCart } =
+  const { cart, decreaseQuantity, addToCart, removeProductById, clearCart,   } =
     useContext(AppContext);
 
-  const [quanity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(0);
   const [price, setPrice] = useState(0);
-  const [priceperqtys, setTotalPriceperqtys] = useState(0);
+ // const [priceperqtys, setTotalPriceperqtys, ] = useState(0);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     let totalqty = 0;
@@ -32,7 +34,7 @@ const Cart = () => {
       console.log("totalprice", totalprice);
       setQuantity(totalqty);
       setPrice(totalprice);
-      setTotalPriceperqtys(priceperproduct);
+      //setTotalPriceperqtys(priceperproduct);
     }
   }, [cart]);
 
@@ -258,7 +260,7 @@ const Cart = () => {
             <div className="flex flex-col ">
               <div className="mr-10">
                 <h2 className=" text-1xl font-bold">
-                  TOTALQUANTITY: {quanity}
+                  TOTALQUANTITY: {quantity}
                 </h2>
               </div>
 
@@ -269,7 +271,9 @@ const Cart = () => {
               </div>
 
               <div className="mt-4 md:mt-6 mr-0  md:mr-10 -ml-8  ">
-                <Button className="w-60 p-2  bg-black text-white rounded-full  hover:bg-gray-900 transition">
+                <Button className="w-60 p-2  bg-black text-white rounded-full  hover:bg-gray-900 transition"   
+                onClick={()=> navigate('/checkout/address')}
+                >
                   Check Out
                 </Button>
               </div>

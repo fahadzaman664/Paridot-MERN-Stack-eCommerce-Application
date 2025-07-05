@@ -23,6 +23,7 @@ import {
 } from "@headlessui/react";
 import { ArrowRightOnRectangleIcon } from "@heroicons/react/24/outline";
 import UserContext from "../Context/UserContext";
+import { useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const [search, setSearchTerm] = useState("");
@@ -40,6 +41,7 @@ const Navbar = () => {
   const { setIsAthenticated, setToken, isAuthenticated } =
     useContext(UserContext);
   const [open, setOpen] = useState(false);
+  const location = useLocation();
 
   console.log("cart", cart);
   // submenu / filtering base on category
@@ -300,6 +302,7 @@ const Navbar = () => {
         </div>
       </div>
       <div>
+        {location.pathname !== "/checkout/address" && (
         <div className=" sticky top-16 z-40 w-full shadow-inner border-t border-gray-300">
           <div className=" max-w-7xl mx-auto flex flex-wrap justify-center gap-6 py-2">
             <button
@@ -377,6 +380,7 @@ const Navbar = () => {
             </button>
           </div>
         </div>
+        )}
       </div>
       <Drawer open={cartSheetOpen} onOpenChange={setCartSheetOpen}>
         <DrawerContent className="bg-white border-l max-w-[400px] w-full p-4 shadow-xl">

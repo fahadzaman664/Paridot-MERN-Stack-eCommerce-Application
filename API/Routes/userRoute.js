@@ -19,4 +19,5 @@ userRouter.get('/getallusers', getallusers)
 // user profile
 userRouter.get('/profile',isAuthenticated, userProfile )
 
+
 export default userRouter;

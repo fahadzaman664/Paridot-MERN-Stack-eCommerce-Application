@@ -32,7 +32,7 @@ export const getAddress = async(req,res)=>{
        return res.satus(404).json({message:'no address found', success:false});
        }
 
-        return res.status(201).json({message:'user address', useraddress: address[0]});
+        return res.status(201).json({message:'user address',success:true, useraddress: address[0]});
 
     
   } 

@@ -10,6 +10,7 @@ const AppState = (props) => {
   const [cart, setCart] = useState([]);
   const [reload, setReload] = useState(false);
   const [latestCart, setLatestCart] = useState([]);
+  const [userAddress, setUserAddress] = useState("");
   const [cartSheetOpen, setCartSheetOpen] = useState(false); // 👈 global drawer
   // state
   const [lastAddedProduct, setLastAddedProduct] = useState(null);
@@ -25,6 +26,7 @@ const AppState = (props) => {
   useEffect(() => {
     if (!token) return; // skip fetch if token not loaded yet
     getUserCart();
+    getUserAddress();
   }, [token, reload]);
 
   useEffect(() => {
@@ -145,19 +147,44 @@ const AppState = (props) => {
       );
 
       setReload(!reload);
-       return api.data
-
+      return api.data;
     } catch (error) {
       console.error("Failed to remove product");
     }
   };
 
-
   // clear cart
   const clearCart = async () => {
     try {
-      const api = await axios.delete(
-        `${url}/api/cart/clearcart`,
+      const api = await axios.delete(`${url}/api/cart/clearcart`, {
+        headers: {
+          "Content-Type": "application/json",
+          Auth: token,
+        },
+        withCredentials: true,
+      });
+
+      setReload(!reload);
+      return api.data;
+    } catch (error) {
+      console.error("Failed to clear cart");
+    }
+  };
+
+  // cl
+  const shippingAddress = async (
+    fullName,
+    address,
+    city,
+    pinCode,
+    phoneNumber,
+    country,
+    state
+  ) => {
+    try {
+      const api = await axios.post(
+        `${url}/api/address/addaddress`,
+        { fullName, address, city, pinCode, phoneNumber, country, state },
         {
           headers: {
             "Content-Type": "application/json",
@@ -166,14 +193,34 @@ const AppState = (props) => {
           withCredentials: true,
         }
       );
-
       setReload(!reload);
-       return api.data
-
+      return api.data;
     } catch (error) {
-      console.error("Failed to clear cart");
+      console.error("Failed to adding shipping address");
     }
   };
+
+  // get user address
+  const getUserAddress = async () => {
+    try {
+      const api = await axios.get(`${url}/api/address/getaddress`, {
+        headers: {
+          "Content-Type": "application/json",
+          Auth: token,
+        },
+        withCredentials: true,
+      });
+
+      setUserAddress(api.data.useraddress);
+      setReload(!reload);
+    } catch (error) {
+      console.error(
+        "Failed to fetch user address:",
+        error.api?.data || error.message
+      );
+    }
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -190,7 +237,9 @@ const AppState = (props) => {
         setLastAddedProduct,
         decreaseQuantity,
         removeProductById,
-        clearCart
+        clearCart,
+        shippingAddress,
+        userAddress
       }}
     >
       {props.children}
