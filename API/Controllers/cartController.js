@@ -6,6 +6,9 @@ export const addtocart = async (req, res) => {
         const { title, price, qty, productId, imgSrc } = req.body
         const userId = req.user;
 
+        const cleanedPriceStr = price.toString().replace(/[^0-9.]/g, "");
+        const numericPrice = parseFloat(cleanedPriceStr);
+
         let cart = await CartModel.findOne({ userId });
         if (!cart) {
             // create new instance of cart model
@@ -17,11 +20,11 @@ export const addtocart = async (req, res) => {
 
         if (itemIndex > -1) {
             cart.items[itemIndex].qty += qty;
-            cart.items[itemIndex].price += price * qty;
+            cart.items[itemIndex].price += numericPrice * qty;
         }
         else {
             // then push items in item array
-            cart.items.push({ title, price, qty, productId, imgSrc });
+            cart.items.push({ title, price: numericPrice * qty, qty, productId, imgSrc });
         }
 
 
@@ -42,7 +45,7 @@ export const getuserspecificCart = async (req, res) => {
         const userId = req.user;
         const cart = await CartModel.findOne({ userId });
         if (!cart) {
-           res.status(404).json({ message: 'no cart found', succes: false });
+            res.status(404).json({ message: 'no cart found', succes: false });
         }
 
         res.status(201).json({ message: 'fetched user cart data', cart: cart, success: true })
@@ -96,15 +99,19 @@ export const clearCart = async (req, res) => {
         let cart = await CartModel.findOne({ userId });
 
         if (!cart) {
-            cart = new CartModel({userId, items:[]});
+            cart = new CartModel({ userId, items: [] });
+            return res.status(404).json({
+                message: 'No cart found for user',
+                success: false
+            });
         }
 
         else {
-            cart.items=[]
+            cart.items = []
         }
 
-       await cart.save();
-        res.status(201).json({ message: 'user cart cleared', succes: true })
+        await cart.save();
+        res.status(200).json({ message: 'user cart cleared', success: true })
     }
 
     catch (error) {
@@ -152,22 +159,28 @@ export const decreaseCart = async (req, res) => {
 
             const item = cart.items[itemIndex]
             // for quantity greater then 0
-            if(item.qty>qty){
+            if (item.qty > qty) {
 
-                const priceperunit = item.price/item.qty;
+                const priceperunit = item.price / item.qty;
                 item.qty -= qty;
-               item.price -= priceperunit * qty;
+                item.price -= priceperunit * qty;
 
             }
-             else {
+            else {
                 // Log removed product ID (optional)
                 console.log(`Removed product from cart: ${item.productId}`);
-
-                cart.items.splice(itemIndex,1);
-             }
+                cart.items.splice(itemIndex, 1);
+                await cart.save();
+                return res.status(201).json({
+                    message: 'Product removed from cart',
+                    cart: cart,
+                    success: true,
+                    removed: true,   // 👈 send explicit flag!
+                });
+            }
         }
-        else{
-            return  res.status(404).json({message:'no proudct id found'})
+        else {
+            return res.status(404).json({ message: 'no proudct id found' })
         }
 
 

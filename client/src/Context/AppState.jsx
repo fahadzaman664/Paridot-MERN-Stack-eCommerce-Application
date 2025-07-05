@@ -8,12 +8,11 @@ const AppState = (props) => {
   const [filteredData, setFilteredData] = useState([]);
   const [products, setProduct] = useState([]);
   const [cart, setCart] = useState([]);
-  const [reload, setReload]= useState(false);
+  const [reload, setReload] = useState(false);
   const [latestCart, setLatestCart] = useState([]);
-  const [cartSheetOpen, setCartSheetOpen] = useState(false); // 👈 global drawer 
+  const [cartSheetOpen, setCartSheetOpen] = useState(false); // 👈 global drawer
   // state
   const [lastAddedProduct, setLastAddedProduct] = useState(null);
-
 
   useEffect(() => {
     const savedToken = localStorage.getItem("token");
@@ -73,7 +72,7 @@ const AppState = (props) => {
 
       if (data.success) {
         setReload(!reload);
-        return { success: true, message: data.message, data:data.cart};
+        return { success: true, message: data.message, data: data.cart };
       } else {
         return { success: false, message: data.message || "Login failed." };
       }
@@ -98,8 +97,8 @@ const AppState = (props) => {
 
       const data = api.data;
       if (data.success) {
-        setCart(data.cart);   
-        setLatestCart(data.cart); 
+        setCart(data.cart);
+        setLatestCart(data.cart);
       }
     } catch (error) {
       console.error(
@@ -109,6 +108,72 @@ const AppState = (props) => {
     }
   };
 
+  // decrease quantity
+  const decreaseQuantity = async (productId, qty) => {
+    try {
+      const api = await axios.post(
+        `${url}/api/cart/decreasequantity`,
+        { productId, qty },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Auth: token,
+          },
+          withCredentials: true,
+        }
+      );
+
+      setReload(!reload);
+      return api.data;
+    } catch (error) {
+      console.error("Failed to decrease quanity of the product");
+    }
+  };
+
+  // remove product by id
+  const removeProductById = async (productId) => {
+    try {
+      const api = await axios.delete(
+        `${url}/api/cart/removeproductfromcart/${productId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Auth: token,
+          },
+          withCredentials: true,
+        }
+      );
+
+      setReload(!reload);
+       return api.data
+
+    } catch (error) {
+      console.error("Failed to remove product");
+    }
+  };
+
+
+  // clear cart
+  const clearCart = async () => {
+    try {
+      const api = await axios.delete(
+        `${url}/api/cart/clearcart`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Auth: token,
+          },
+          withCredentials: true,
+        }
+      );
+
+      setReload(!reload);
+       return api.data
+
+    } catch (error) {
+      console.error("Failed to clear cart");
+    }
+  };
   return (
     <AppContext.Provider
       value={{
@@ -121,7 +186,11 @@ const AppState = (props) => {
         setCartSheetOpen,
         cartSheetOpen,
         latestCart,
-        lastAddedProduct, setLastAddedProduct
+        lastAddedProduct,
+        setLastAddedProduct,
+        decreaseQuantity,
+        removeProductById,
+        clearCart
       }}
     >
       {props.children}

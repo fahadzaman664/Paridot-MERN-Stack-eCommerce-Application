@@ -131,7 +131,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="sticky top-0 z-50 bg-white shadow flex flex-col">
+    <div className="sticky top-0 z-50 bg-white  flex flex-col">
       <div className="flex flex-col md:flex-row items-center justify-between  bg-white sm:px-6 lg:px-8 gap-4 py-2">
         {/* Logo Section */}
         <Link
@@ -143,7 +143,7 @@ const Navbar = () => {
           <img
             src="/paridot3.png"
             alt="Paridot"
-            className="w-40 h-22 rounded-full"
+            className="w-40 h-24 rounded-full"
           />
         </Link>
 
@@ -300,7 +300,7 @@ const Navbar = () => {
         </div>
       </div>
       <div>
-        <div className=" bg-red-200 sticky top-16 z-40 w-full shadow-inner border-t border-gray-300">
+        <div className=" sticky top-16 z-40 w-full shadow-inner border-t border-gray-300">
           <div className=" max-w-7xl mx-auto flex flex-wrap justify-center gap-6 py-2">
             <button
               className="cursor-pointer text-black hover:text-red-500 font-medium transition"
@@ -317,7 +317,7 @@ const Navbar = () => {
             {/* ✅ Price Dropdown */}
             <Menu as="div" className="relative inline-block text-left">
               <div>
-                <Menu.Button className="inline-flex justify-center items-center gap-x-1 rounded-md  px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50">
+                <Menu.Button className="inline-flex justify-center items-center gap-x-1 rounded-md  px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs  hover:bg-red-100">
                   Price
                   <ChevronDownIcon
                     aria-hidden="true"
