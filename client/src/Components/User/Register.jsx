@@ -37,7 +37,7 @@ const Register = () => {
       navigate("/Login");
     }
   else {
-       alert(login.message || 'login failed');
+       alert(result.message || 'login failed');
     }
 
     setError("");

@@ -13,6 +13,7 @@ import Profile from "./Components/User/Profile";
 import Cart from "./Components/Cart";
 import Address from "./Components/Address";
 import CheckOut from "./Components/Checkout";
+import OrderConfirmed from "./Components/OrderConfirmed";
 
 const App = () => {
   return (
@@ -46,6 +47,8 @@ const App = () => {
             <Route path="/cart" element={<Cart />} />
             <Route path="/checkout/address" element={<Address />} />
             <Route path="/Checkout" element={<CheckOut />} />
+             <Route path="/order-success/:orderid" element={<OrderConfirmed />} />
+
           </Routes>
         </div>
       </Router>

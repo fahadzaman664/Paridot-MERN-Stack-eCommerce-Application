@@ -8,12 +8,14 @@ const UserState = (props) => {
   const [isAuthenticated, setIsAthenticated] = useState(false);
 
   const [userProfile, setUserProfile] = useState("");
+  const [user, setUser] = useState('');
 
   useEffect(() => {
     const savedToken = localStorage.getItem("token");
     if (savedToken) {
       setToken(savedToken);
       setIsAthenticated(true);
+  
     }
   }, []); // runs once on mount: loads token
 
@@ -29,6 +31,7 @@ const UserState = (props) => {
           withCredentials: true,
         });
         setUserProfile(api.data.userProfile);
+         setUser(api.data.userProfile);    
 
       } catch (error) {
         console.error(
@@ -112,7 +115,8 @@ const UserState = (props) => {
         loginUrl,
         setToken,
         setIsAthenticated,
-        userProfile
+        userProfile,
+        user
       }}
     >
       {props.children}

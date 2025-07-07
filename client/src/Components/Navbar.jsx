@@ -43,7 +43,7 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const location = useLocation();
 
-  console.log("cart", cart);
+ 
   // submenu / filtering base on category
   const filterByCategory = (cat) => {
     setFilteredData(
@@ -302,7 +302,7 @@ const Navbar = () => {
         </div>
       </div>
       <div>
-        {location.pathname !== "/checkout/address" && (
+        {location.pathname !== "/checkout/address" && location.pathname!=="/CheckOut" && (
         <div className=" sticky top-16 z-40 w-full shadow-inner border-t border-gray-300">
           <div className=" max-w-7xl mx-auto flex flex-wrap justify-center gap-6 py-2">
             <button

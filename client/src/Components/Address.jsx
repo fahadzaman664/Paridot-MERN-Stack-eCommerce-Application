@@ -163,11 +163,13 @@ const Address = () => {
                 onChange={handleCountryChange}
                 className="w-full border p-3 rounded"
                 defaultOptionLabel="Select a country"
+                required
               />
               <RegionDropdown
                 country={shippingInfo.country}
                 value={shippingInfo.state}
                 onChange={handleRegionChange}
+                required
                 className={`w-full border p-3 rounded  ${
                   !shippingInfo.country
                     ? "bg-gray-100 cursor-not-allowed"
@@ -188,21 +190,23 @@ const Address = () => {
               />
 
               <PhoneInput
-                country={"us"}
+                country={"pk"}
                 value={shippingInfo.phoneNumber}
                 onChange={handlePhoneChange}
                 className="w-full !border !p-3 !rounded"
+                required
                 inputProps={{
                   required: true,
                   name: "phone",
                 }}
+                
               />
-              <div className="flex justify-center">
+              <div className="flex justify-center pt-4">
               <button
                 type="submit"
                 className="w-80 bg-black text-white py-3 rounded cursor-pointer uppercase font-semibold hover:bg-gray-900 transition"
               >
-                Confirm
+                Proceed To Shipment
               </button>
               </div>
 

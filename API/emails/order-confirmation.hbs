@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Order Confirmation</title>
+  </head>
+  <body style="font-family: Arial, sans-serif; color: #333;">
+    <h2 style="color: brown;">Hello {{shippingInfo.fullName}},</h2>
+    <p>Thank you for your order!</p>
+
+    <p><strong>Order ID:</strong> {{_id}}</p>
+    <p><strong>Total Amount:</strong> Rs.{{totalAmount}}</p>
+
+    <h3>Shipping Address:</h3>
+    <p>{{shippingInfo.address}},
+      {{shippingInfo.city}},
+      {{shippingInfo.state}},
+      {{shippingInfo.country}},
+      {{shippingInfo.pinCode}}</p>
+
+    <h3>Order Details:</h3>
+    <ul>
+      {{#each cartItems}}
+        <li style="background-color: aliceblue;">
+          <img
+            src="{{imgSrc}}"
+            alt="{{title}}"
+            width="80"
+            style="vertical-align: middle; margin-right: 10px;"
+          />{{title}}
+          - Rs.{{price}}
+          x
+          {{qty}}</li>
+      {{/each}}
+    </ul>
+
+    <p>We will notify you when your order ships. Thank you for shopping with us!</p>
+  </body>
+</html>
