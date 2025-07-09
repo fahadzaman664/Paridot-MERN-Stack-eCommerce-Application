@@ -3,7 +3,13 @@ import AppContext from "../../Context/AppContext";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 const ProductCard = () => {
-  const { filteredData, addToCart,setLastAddedProduct, setCart,setCartSheetOpen } = useContext(AppContext);
+  const {
+    filteredData,
+    addToCart,
+    setLastAddedProduct,
+    setCart,
+    setCartSheetOpen,
+  } = useContext(AppContext);
   const [hovered, setHovered] = useState({});
 
   const handleHover = (id, isHovering) => {
@@ -15,15 +21,15 @@ const ProductCard = () => {
   const onClickAddToCart = async (title, price, qty, productId, imgSrc) => {
     const response = await addToCart(title, price, qty, productId, imgSrc);
     if (response.success) {
-  const updatedCart = response.data;
+      const updatedCart = response.data;
 
-    // Find the recently added/updated product by ID:
-    const lastItem = updatedCart.items.find(
-      item => item.productId === productId
-    );
+      // Find the recently added/updated product by ID:
+      const lastItem = updatedCart.items.find(
+        (item) => item.productId === productId
+      );
 
-    // Update Navbar's state via prop:
-    setLastAddedProduct(lastItem);
+      // Update Navbar's state via prop:
+      setLastAddedProduct(lastItem);
       toast.success(response.message, {
         position: "top-right",
         autoClose: 3000,

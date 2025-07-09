@@ -22,14 +22,13 @@ const AppState = (props) => {
       setToken(savedToken);
       setIsAthenticated(true);
     }
-  }, [token]); // runs once on mount: loads token
+  }, []); // runs once on mount: loads token
 
   useEffect(() => {
     if (!token) return; // skip fetch if token not loaded yet
     getUserCart();
     getUserAddress();
     getuserOrder();
-    
   }, [token, reload]);
 
   useEffect(() => {
@@ -86,6 +85,7 @@ const AppState = (props) => {
         "Failed to add product to cart:",
         error.response?.data || error.message
       );
+     
     }
   };
 
@@ -104,6 +104,7 @@ const AppState = (props) => {
       if (data.success) {
         setCart(data.cart);
         setLatestCart(data.cart);
+        setReload(!reload);
       }
     } catch (error) {
       console.error(
@@ -225,7 +226,13 @@ const AppState = (props) => {
   };
 
   //create order
-  const confirmOrder = async (shippingInfo, cartItems, totalAmount,Totalquantity,shippingcharges) => {
+  const confirmOrder = async (
+    shippingInfo,
+    cartItems,
+    totalAmount,
+    Totalquantity,
+    shippingcharges
+  ) => {
     try {
       const response = await axios.post(
         `${url}/api/payment/createorder`,
@@ -233,7 +240,8 @@ const AppState = (props) => {
           shippingInfo,
           cartItems,
           totalAmount,
-          Totalquantity,shippingcharges
+          Totalquantity,
+          shippingcharges,
         },
         {
           headers: {
@@ -250,29 +258,23 @@ const AppState = (props) => {
     }
   };
 
-
   //get user order
   const getuserOrder = async () => {
     try {
-      const response = await axios.get(
-        `${url}/api/payment/userorder`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Auth: token,
-          },
-          withCredentials: true,
-        }
-      );
+      const response = await axios.get(`${url}/api/payment/userorder`, {
+        headers: {
+          "Content-Type": "application/json",
+          Auth: token,
+        },
+        withCredentials: true,
+      });
       setUserOrder(response.data.order);
-      console.log("user order", response.data.order)
+      console.log("user order", response.data.order);
       return response.data;
     } catch (error) {
       console.error("fetch user order error:", error);
-
     }
   };
-  
 
   return (
     <AppContext.Provider
@@ -296,7 +298,7 @@ const AppState = (props) => {
         confirmOrder,
         setCart,
         userOrder,
-        getuserOrder
+        getuserOrder,
       }}
     >
       {props.children}

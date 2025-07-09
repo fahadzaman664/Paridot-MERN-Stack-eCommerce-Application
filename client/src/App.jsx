@@ -14,12 +14,16 @@ import Cart from "./Components/Cart";
 import Address from "./Components/Address";
 import CheckOut from "./Components/Checkout";
 import OrderConfirmed from "./Components/OrderConfirmed";
+import SlideShow from "./Components/Slideshow";
+import Footer from "./Components/Footer";
+import ContactUs from "./Components/ContactUs";
 
 const App = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Router>
         <Navbar />
+        <SlideShow />
         {/* Your Router / Navbar / Routes here */}
         <ToastContainer
           position="top-right"
@@ -47,10 +51,15 @@ const App = () => {
             <Route path="/cart" element={<Cart />} />
             <Route path="/checkout/address" element={<Address />} />
             <Route path="/Checkout" element={<CheckOut />} />
-             <Route path="/order-success/:orderid" element={<OrderConfirmed />} />
-
+            <Route
+              path="/order-success/:orderid"
+              element={<OrderConfirmed />}
+            />
+            <Route path="/contact" element={<ContactUs />} />
+           
           </Routes>
         </div>
+         <Footer />
       </Router>
     </div>
   );

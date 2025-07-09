@@ -86,7 +86,7 @@ const Navbar = () => {
 
   const handleSuggestionClick = (title) => {
     setSearchTerm(title);
-    setsuggestion([]);
+    setsuggestion('');
     navigate(`/product/search/${title}`);
   };
 
@@ -117,7 +117,7 @@ const Navbar = () => {
     }
     navigate(`/product/search/${search}`);
     setSearchTerm("");
-    setsuggestion([]);
+    setsuggestion('');
   };
 
   // by price

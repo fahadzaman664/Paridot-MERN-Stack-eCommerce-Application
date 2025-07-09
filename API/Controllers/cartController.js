@@ -8,6 +8,12 @@ export const addtocart = async (req, res) => {
 
         const cleanedPriceStr = price.toString().replace(/[^0-9.]/g, "");
         const numericPrice = parseFloat(cleanedPriceStr);
+        // Validate quantity
+        if (qty <= 0) {
+            return res
+                .status(201)
+                .json({ message: "no product added to cart, Quantity must be greater than 0", success: false });
+        }
 
         let cart = await CartModel.findOne({ userId });
         if (!cart) {
@@ -22,6 +28,8 @@ export const addtocart = async (req, res) => {
             cart.items[itemIndex].qty += qty;
             cart.items[itemIndex].price += numericPrice * qty;
         }
+
+
         else {
             // then push items in item array
             cart.items.push({ title, price: numericPrice * qty, qty, productId, imgSrc });
