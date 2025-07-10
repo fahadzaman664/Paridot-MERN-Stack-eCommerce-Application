@@ -3,55 +3,87 @@ import AppContext from "../Context/AppContext";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import { Link, useLocation } from "react-router-dom";
+import axios from "axios";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css";
+import Spinner from "./Spinner";
 const SlideShow = () => {
-const { products } = useContext(AppContext);
-const location = useLocation();
+  const { products } = useContext(AppContext);
+  const location = useLocation();
+  const [slideShowData, setSlideShowData] = useState("");
+  const [loading, setLoading] = useState(true);
+  const url = "http://localhost:1000";
 
-  if (!Array.isArray(products) || products.length === 0) {
-    return (
-      <div className="w-96 h-96 flex items-center justify-center text-gray-500">
-        Loading slideshow...
-      </div>
-    );
+  useEffect(() => {
+    const fetchdata = async () => {
+      try {
+        setLoading(true);
+        const api = await axios.get(`${url}/api/product/getallslideshow`, {
+          withCredentials: true,
+        });
+        setSlideShowData(api.data.slideshowdata);
+        setLoading(false);
+        console.log("slideshow", slideShowData);
+      } catch (error) {
+        console.error(
+          "Failed to fetch products:",
+          error.response?.data || error.message
+        );
+      }
+    };
+
+    fetchdata();
+  }, []);
+  if (loading) {
+    return <Spinner />;
   }
 
   return (
     <div>
-    {location.pathname === "/" &&(
-      <div className="w-full h-96">
-      <Swiper
-        spaceBetween={30}
-        centeredSlides={true}
-        autoplay={{
-          delay: 3000,
-          disableOnInteraction: false,
-        }}
-        pagination={{
-          clickable: true,
-        }}
-        navigation={true}
-        modules={[Autoplay, Pagination, Navigation]}
-        className="w-full h-full"
-      >
-        {products.map((img) => (
-          <SwiperSlide key={img._id}>
-            <Link to={`/product/${img._id}`}>
-              <img
-                src={img.imgSrc}
-                alt={`slide-${img._id}`}
-                className="h-full w-full object-contain cursor-pointer"
-              />
-            </Link>
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    </div>)}
+      {location.pathname === "/" && (
+        <div className="w-full h-96">
+          <Swiper
+            spaceBetween={30}
+            centeredSlides={true}
+            autoplay={{
+              delay: 6000,
+              disableOnInteraction: false,
+            }}
+            pagination={{
+              clickable: true,
+            }}
+            navigation={true}
+            modules={[Autoplay, Pagination, Navigation]}
+            className="w-full h-full"
+          >
+            {slideShowData.map((slide) => (
+              <SwiperSlide key={slide._id}>
+                <Link to={`/`}>
+                  {slide.videoSrc ? (
+                    <video
+                      src={slide.videoSrc}
+                      autoPlay
+                      muted
+                      loop
+                      controls={false}
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    <img
+                      src={slide.imgSrc}
+                      alt={`slide-${slide._id}`}
+                      className="h-full w-full object-cover"
+                    />
+                  )}
+                </Link>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
+      )}
     </div>
-    
   );
 };
 

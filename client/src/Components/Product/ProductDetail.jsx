@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import AppContext from "../../Context/AppContext";
-import { Link } from "react-router-dom";
-import { ToastContainer, toast, Bounce } from "react-toastify";
-
+import { toast, Bounce } from "react-toastify";
+import Spinner from "../Spinner";
 import axios from "axios";
 import RelatedProducts from "./RelatedProducts";
+import ProductImageZoom from "./ProductImageZoom";
 const ProductDetail = () => {
   const { id } = useParams();
   const {
@@ -19,6 +19,7 @@ const ProductDetail = () => {
   const [product, setProduct] = useState();
   const [isOpen, setIsOpen] = useState(false);
   const [quantity, setquantity] = useState(1);
+
   const incrementquanity = () => {
     setquantity((prev) => {
       return prev + 1;
@@ -27,6 +28,10 @@ const ProductDetail = () => {
 
   const decrementquantity = () => {
     setquantity((prev) => (prev > 1 ? prev - 1 : 1));
+  };
+
+  const handleMouseLeave = () => {
+    setZoomData({ ...zoomData, show: false });
   };
 
   useEffect(() => {
@@ -40,12 +45,16 @@ const ProductDetail = () => {
         console.error("Failed to fetch product");
       }
     };
-      setquantity(1);
+    setquantity(1);
     fetchProduct();
   }, [id]);
 
   if (!product) {
-    return <div className="p-6 text-center">Loading product...</div>;
+    return (
+      <div className="p-6 flex justify-center">
+        <Spinner />{" "}
+      </div>
+    );
   }
 
   const onClickAddToCart = async (title, price, qty, productId, imgSrc) => {
@@ -80,18 +89,14 @@ const ProductDetail = () => {
   };
 
   return (
-    <div className="block">
-      <div className="flex justify-end gap-x-4 mt-10  ">
-        <div className="w-96 h-96  ">
-          <img
-            className=" w-full h-full object-cover hover:scale-105 transition delay-150 duration-700 ease-in-out"
-            src={product.imgSrc}
-            alt={product.title}
-          ></img>
+    <div className="block ">
+      <div className="flex flex-row flex-wrap justify-center items-center sm:items-start sm:gap-x-8       gap-y-8 mt-10 px-4  ">
+        <div className="h-full ">
+          <ProductImageZoom src={product.imgSrc} />
         </div>
 
-        <div className=" block  items-center mr-70 w-1/3">
-          <div className="mt-10">
+        <div className=" w-96 pl-5 ">
+          <div className="relative z-10 w-96 mt-6 ">
             <p className="text-lg font-bold text-gray-900">{product.title}</p>
 
             <b className="text-red-600 dark:text-green-400 font-semibold">
@@ -140,9 +145,9 @@ const ProductDetail = () => {
             <span className="font-bold mx-2">{isOpen ? "-" : "+"}</span>
           </div>
 
-          <div className="pr-10 ">
+          <div className=" max-w-90">
             {isOpen && (
-              <div className="inline mr-10 ">
+              <div className="inline  ">
                 {product.description || "No additional details available."}
               </div>
             )}
@@ -150,7 +155,10 @@ const ProductDetail = () => {
         </div>
       </div>
 
-      <RelatedProducts category={product.category} currentProductId = {product._id} />
+      <RelatedProducts
+        category={product.category}
+        currentProductId={product._id}
+      />
     </div>
   );
 };

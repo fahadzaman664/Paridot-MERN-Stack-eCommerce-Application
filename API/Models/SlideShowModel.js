@@ -1,16 +1,13 @@
 import mongoose from "mongoose";
 
-const productSchema = mongoose.Schema({
+const slideShowSchema = mongoose.Schema({
     title: { type: String, require: true, default: 'empty' },
     description: { type: String, require: true, default: 'empty' },
     category: { type: String, require: true, default: 'empty' },
-    price: { type: String, require: true, default: 0 },
-    qty: { type: Number, require: true, default: 0 },
     imgSrc: { type: String, require: true, default: 'empty' },
-    imgHover: { type: String, require: true, default: 'empty' },
-
+    videoSrc: { type: String, default: null },
     createdAt: { type: Date, default: Date.now },
 
 });
 
-export const ProductModel = mongoose.model('products', productSchema);
+export const SlideShowModel = mongoose.model('slideshow', slideShowSchema);

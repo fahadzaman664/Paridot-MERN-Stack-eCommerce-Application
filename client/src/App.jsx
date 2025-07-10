@@ -17,11 +17,13 @@ import OrderConfirmed from "./Components/OrderConfirmed";
 import SlideShow from "./Components/Slideshow";
 import Footer from "./Components/Footer";
 import ContactUs from "./Components/ContactUs";
+import ScrollToTop from "./Components/ScrollToTop";
 
 const App = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Router>
+        <ScrollToTop />
         <Navbar />
         <SlideShow />
         {/* Your Router / Navbar / Routes here */}

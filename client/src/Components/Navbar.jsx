@@ -14,7 +14,7 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-} from "@/components/ui/drawer";
+} from "@/Components/ui/drawer";
 import {
   Dialog,
   DialogBackdrop,
@@ -43,7 +43,6 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const location = useLocation();
 
- 
   // submenu / filtering base on category
   const filterByCategory = (cat) => {
     setFilteredData(
@@ -52,11 +51,12 @@ const Navbar = () => {
       )
     );
     navigate("/");
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   // for newin one week
   const filterByNewIn = () => {
-    const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
+    const SEVEN_DAYS_MS = 365 * 24 * 60 * 60 * 1000; // 365 days
     const now = new Date();
 
     const filtered = products.filter((product) => {
@@ -66,11 +66,13 @@ const Navbar = () => {
 
     setFilteredData(filtered);
     navigate("/");
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const noFilterShowAllProducts = () => {
     setFilteredData(products);
     navigate("/");
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   // Filter product titles matching input text
@@ -86,7 +88,7 @@ const Navbar = () => {
 
   const handleSuggestionClick = (title) => {
     setSearchTerm(title);
-    setsuggestion('');
+    setsuggestion("");
     navigate(`/product/search/${title}`);
   };
 
@@ -117,24 +119,25 @@ const Navbar = () => {
     }
     navigate(`/product/search/${search}`);
     setSearchTerm("");
-    setsuggestion('');
+    setsuggestion("");
   };
 
   // by price
   const handlePriceFilter = (value) => {
     if (value === "low") {
-      const sorted = [...products].sort((a, b) => a.price - b.price);
+      const sorted = [...products].sort((a, b) =>a.price - b.price);
       setFilteredData(sorted);
     } else if (value === "high") {
       const sorted = [...products].sort((a, b) => b.price - a.price);
       setFilteredData(sorted);
     }
     navigate("/");
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
     <div className="sticky top-0 z-50 bg-white  flex flex-col">
-      <div className="flex flex-col md:flex-row items-center justify-between  bg-white sm:px-6 lg:px-8 gap-4 py-2">
+      <div className="flex justify-between items-center px-4 py-3 md:px-6 lg:px-8">
         {/* Logo Section */}
         <Link
           className="flex items-center  
@@ -145,7 +148,7 @@ const Navbar = () => {
           <img
             src="/paridot3.png"
             alt="Paridot"
-            className="w-40 h-24 rounded-full"
+            className="w-40 h-24  rounded-full"
           />
         </Link>
 
@@ -302,85 +305,106 @@ const Navbar = () => {
         </div>
       </div>
       <div>
-        {location.pathname !== "/checkout/address" && location.pathname!=="/CheckOut" && (
-        <div className=" sticky top-16 z-40 w-full shadow-inner border-t border-gray-300">
-          <div className=" max-w-7xl mx-auto flex flex-wrap justify-center gap-6 py-2">
-            <button
-              className="cursor-pointer text-black hover:text-red-500 font-medium transition"
-              onClick={() => filterByNewIn()}
-            >
-              NewIn
-            </button>
-            <button
-              className="cursor-pointer text-black hover:text-red-500 font-medium transition"
-              onClick={() => filterByCategory("Mobile Phone")}
-            >
-              Mobile Phone
-            </button>
-            {/* ✅ Price Dropdown */}
-            <Menu as="div" className="relative inline-block text-left">
-              <div>
-                <Menu.Button className="inline-flex justify-center items-center gap-x-1 rounded-md  px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs  hover:bg-red-100">
-                  Price
-                  <ChevronDownIcon
-                    aria-hidden="true"
-                    className="-mr-1 size-5 text-gray-400"
-                  />
-                </Menu.Button>
-              </div>
+        {location.pathname !== "/checkout/address" &&
+          location.pathname !== "/CheckOut" && (
+            <div className=" sticky top-16 z-40 w-full shadow-inner border-t border-gray-300">
+              <div className=" max-w-7xl mx-auto flex flex-wrap justify-center gap-8 py-2">
+                <button
+                  className="cursor-pointer uppercase text-black hover:text-red-500 font-medium transition"
+                  onClick={() => filterByNewIn()}
+                >
+                  NewIn
+                </button>
+                <button
+                  className="cursor-pointer uppercase text-black hover:text-red-500 font-medium transition"
+                  onClick={() => filterByCategory("Women Clothes")}
+                >
+                  Women
+                </button>
+                <button
+                  className="cursor-pointer uppercase text-black hover:text-red-500 font-medium transition"
+                  onClick={() => filterByCategory("Man Clothes")}
+                >
+                  Man
+                </button>
 
-              <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
-                <div className="py-1">
-                  <Menu.Item>
-                    {({ active }) => (
-                      <button
-                        type="button"
-                        onClick={() => handlePriceFilter("low")}
-                        className={`${
-                          active ? "bg-gray-100 text-gray-900" : "text-gray-700"
-                        } block w-full px-4 py-2 text-left text-sm`}
-                      >
-                        Low to High
-                      </button>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <button
-                        type="button"
-                        onClick={() => handlePriceFilter("high")}
-                        className={`${
-                          active ? "bg-gray-100 text-gray-900" : "text-gray-700"
-                        } block w-full px-4 py-2 text-left text-sm`}
-                      >
-                        High to Low
-                      </button>
-                    )}
-                  </Menu.Item>
+                <div className="relative group pt-2 pb-2 inline-block">
+                  <div className="cursor-pointer uppercase text-black hover:text-red-500 font-semibold">
+                    Perfumes
+                  </div>
+
+                  {/* Dropdown for filtering (not link) */}
+                  <div className="absolute hidden group-hover:flex flex-col bg-white shadow-lg rounded-md mt-2 z-50 min-w-[180px]">
+                    <button
+                      onClick={() => filterByCategory("perfume-men")}
+                      className="px-4  py-2 text-left hover:bg-gray-100 text-gray-700"
+                    >
+                      Men
+                    </button>
+                    <button
+                      onClick={() => filterByCategory("perfume-women")}
+                      className="px-4  py-2 text-left hover:bg-gray-100 text-gray-700"
+                    >
+                      Women
+                    </button>
+
+                  </div>
                 </div>
-              </Menu.Items>
-            </Menu>
-            <button
-              className=" cursor-pointer text-black hover:text-red-500 font-medium transition"
-              onClick={() => filterByCategory("watches")}
-            >
-              Watches
-            </button>
-            <button
-              className="cursor-pointer text-black hover:text-red-500 font-medium transition"
-              onClick={() => filterByCategory("headPhones")}
-            >
-              Headphones
-            </button>
-            <button
-              className=" cursor-pointer text-black hover:text-red-500 font-medium transition"
-              onClick={() => filterByCategory("Earbuds")}
-            >
-              EarBuds
-            </button>
-          </div>
-        </div>
-        )}
+
+                {/* ✅ Price Dropdown */}
+                <div className="relative group inline-block">
+                  <button className="cursor-pointer pt-2 text-black hover:text-red-500 uppercase font-medium transition">
+                    Price
+                  </button>
+
+                  {/* Dropdown content */}
+                  <div className="absolute hidden group-hover:flex flex-col bg-white shadow-lg rounded-md mt-2 z-50 min-w-[150px]">
+                    <button
+                      onClick={() => handlePriceFilter("low")}
+                      className="px-4 py-2 hover:bg-gray-100 text-gray-700 text-left"
+                    >
+                      Low to High
+                    </button>
+                    <button
+                      onClick={() => handlePriceFilter("high")}
+                      className="px-4 py-2 hover:bg-gray-100 text-gray-700 text-left"
+                    >
+                      High to Low
+                    </button>
+                  </div>
+                </div>
+                <button
+                  className=" cursor-pointer text-black uppercase hover:text-red-500 font-medium transition"
+                  onClick={() => filterByCategory("watches")}
+                >
+                  Watches
+                </button>
+                <div className="relative group pt-2 pb-2 inline-block">
+                  <div className="cursor-pointer text-black uppercase hover:text-red-500 font-semibold">
+                    Boys and Girls
+                  </div>
+
+                  {/* Dropdown for filtering (not link) */}
+                  <div className="absolute hidden group-hover:flex flex-col bg-white shadow-lg rounded-md mt-2 z-50 min-w-[180px]">
+                    <button
+                      onClick={() => filterByCategory("Kid-Boys")}
+                      className="px-4 py-2 text-left hover:bg-gray-100 text-gray-700"
+                    >
+                      Kid Boys
+                    </button>
+                    <button
+                      onClick={() => filterByCategory("Kid-Girls")}
+                      className="px-4 py-2 text-left hover:bg-gray-100 text-gray-700"
+                    >
+                      Kid Girls
+                    </button>
+                   
+                  </div>
+                </div>
+               
+              </div>
+            </div>
+          )}
       </div>
       <Drawer open={cartSheetOpen} onOpenChange={setCartSheetOpen}>
         <DrawerContent className="bg-white border-l max-w-[400px] w-full p-4 shadow-xl">

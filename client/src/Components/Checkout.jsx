@@ -4,6 +4,7 @@ import UserContext from "../Context/UserContext";
 import AppContext from "../Context/AppContext";
 import { toast, Bounce } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import Spinner from "./Spinner";
 const Checkout = () => {
   const { userProfile } = useContext(UserContext);
   const { cart, userAddress,clearCart, confirmOrder, getuserOrder } = useContext(AppContext);
@@ -12,6 +13,8 @@ const Checkout = () => {
   const [price, setPrice] = useState(0);
   const [shippingcharges, setShippingCharges] = useState(250);
   const [isCodSelected, setIsCodSelected] = useState(false);
+    const [loading, setLoading] = useState(false);
+
 
   const navigate = useNavigate();
 
@@ -43,12 +46,16 @@ const Checkout = () => {
   }, [price]);
 
   const handleOrder = async (shippingInfo, cartItems, totalAmount,Totalquantity, shippingcharges) => {
+      setLoading(true);
     const response = await confirmOrder(shippingInfo, cartItems, totalAmount,   Totalquantity,shippingcharges);
+     
     if (response.success) {
       toast.success("Order created successfully!", { autoClose: 3000 });
       await getuserOrder();
       navigate(`/order-success/${response.orderId}`);
      clearCart();
+   
+     
     } else {
        toast.error("Order creation failed or missing order ID.");
     }
@@ -57,6 +64,9 @@ const Checkout = () => {
   const handleCashOnDelivery = (e) => {
     setIsCodSelected(e.target.checked);
   };
+    if (loading) {
+    return <Spinner />;
+  }
 
   return (
     <>

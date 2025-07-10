@@ -1,8 +1,7 @@
-import React, { useContext } from "react";
+import React, { useContext, useState , useEffect} from "react";
 import AppContext from "../Context/AppContext";
 import UserContext from "../Context/UserContext";
 import { useNavigate } from "react-router-dom";
-
 const OrderConfirmed = () => {
   const { userOrder } = useContext(AppContext);
   const { userProfile } = useContext(UserContext);
@@ -10,10 +9,12 @@ const OrderConfirmed = () => {
 
 
 
+
+
+
   return (
     <>
-
-    <div className="flex justify-between items-start mx-auto -mt-14 max-w-7xl w-full px-8 ">
+      <div className="flex justify-between items-start mx-auto -mt-14 max-w-7xl w-full px-8 ">
         {/*start  contact info */}
         <div>
           <div className="bg-white flex justify-center items-center rounded-lg mb-6 p-6 shadow">
@@ -67,18 +68,18 @@ const OrderConfirmed = () => {
             </p>
           </div>
           <div className="flex justify-center mt-4">
-          <button
-            type="submit"
-            className="w-80 bg-black text-white py-3 rounded cursor-pointer uppercase font-semibold hover:bg-gray-900 transition"
-            onClick={() => {navigate('/')}}
-          >
-            Continue Shopping
-          </button>
+            <button
+              type="submit"
+              className="w-80 bg-black text-white py-3 rounded cursor-pointer uppercase font-semibold hover:bg-gray-900 transition"
+              onClick={() => {
+                navigate("/");
+              }}
+            >
+              Continue Shopping
+            </button>
+          </div>
         </div>
 
-        </div>
-
-        
         {/* end Shipping adress detial*/}
 
         {/* summary section */}
@@ -155,7 +156,6 @@ const OrderConfirmed = () => {
         </div>
         {/* summary section end */}
       </div>
-      
     </>
   );
 };

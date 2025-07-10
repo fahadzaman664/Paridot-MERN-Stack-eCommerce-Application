@@ -1,5 +1,5 @@
 import express from 'express'
-import { addProduct, deleteProductByID, getallProducts, getProductByID, updateProductByID } from '../Controllers/productController.js';
+import { addProduct, addSlideShow, deleteProductByID, getallProducts, getAllSlideShow, getProductByID, updateProductByID } from '../Controllers/productController.js';
 const productRouter = express.Router();
 
 // add product
@@ -22,5 +22,10 @@ productRouter.put('/update/:productid', updateProductByID)
 //api-> /api/product/:productid
 productRouter.delete('/delete/:productid', deleteProductByID)
 
+// add slideshow
+productRouter.post('/addslideshow', addSlideShow)
+
+// get all slideshow data
+productRouter.get('/getallslideshow', getAllSlideShow)
 export default productRouter;
 

@@ -10,12 +10,19 @@ import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
 
 const Cart = () => {
-  const { cart, decreaseQuantity, addToCart, removeProductById, clearCart,   } =
-    useContext(AppContext);
+  const {
+    cart,
+    decreaseQuantity,
+    addToCart,
+    removeProductById,
+    clearCart,
+    products,
+  } = useContext(AppContext);
 
   const [quantity, setQuantity] = useState(0);
   const [price, setPrice] = useState(0);
- // const [priceperqtys, setTotalPriceperqtys, ] = useState(0);
+  const [originalPrice, setOriginalPrice] = useState(0);
+  // const [priceperqtys, setTotalPriceperqtys, ] = useState(0);
 
   const navigate = useNavigate();
 
@@ -37,6 +44,10 @@ const Cart = () => {
       //setTotalPriceperqtys(priceperproduct);
     }
   }, [cart]);
+
+  const originalPriceOfProduct = (productid) => {
+    setOriginalPrice((price) => price.products.find(productid));
+  };
 
   // clear cart
   const deleteCart = async () => {
@@ -195,16 +206,20 @@ const Cart = () => {
                   className="absolute mt-14 ml-24 cursor-pointer text-gray-600 "
                   icon={faTrash}
                   onClick={() => {
-                    if (confirm("Are you sure you want to remove the product?")) 
-                      {
+                    if (
+                      confirm("Are you sure you want to remove the product?")
+                    ) {
                       removeProduct(product.productId);
-                     }
+                    }
                   }}
                 />
               </div>
 
-              <div className="text-md leading-6 font-normal text-black mt-2">
-                RS, {product.price}
+              <div className="text-sm text-gray-500 ">
+                 Rs.{" "}
+                {products
+                  .find((p) => p._id === product.productId)
+                  ?.price?.toLocaleString()}
               </div>
 
               <div className="flex items-center justify-center ">
@@ -239,10 +254,9 @@ const Cart = () => {
           <div className="flex justify-center mt-8">
             <button
               className="w-30 p-2  bg-black text-white rounded-full  hover:bg-gray-900 transition cursor-pointer"
-              onClick={() =>{
-                if(confirm("Are you sure want to clear cart ?"))
-                deleteCart()
-              } }
+              onClick={() => {
+                if (confirm("Are you sure want to clear cart ?")) deleteCart();
+              }}
             >
               Clear Cart
             </button>
@@ -271,8 +285,9 @@ const Cart = () => {
               </div>
 
               <div className="mt-4 md:mt-6 mr-0  md:mr-10 -ml-8  ">
-                <Button className="w-60 p-2  bg-black text-white rounded-full  hover:bg-gray-900 transition"   
-                onClick={()=> navigate('/checkout/address')}
+                <Button
+                  className="w-60 p-2  bg-black text-white rounded-full  hover:bg-gray-900 transition"
+                  onClick={() => navigate("/checkout/address")}
                 >
                   Check Out
                 </Button>

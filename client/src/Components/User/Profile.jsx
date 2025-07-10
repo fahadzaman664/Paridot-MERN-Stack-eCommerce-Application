@@ -1,13 +1,14 @@
 import React, { useContext } from "react";
 import UserContext from "../../Context/UserContext";
+import Spinner from "../Spinner";
 
 const Profile = () => {
   const { userProfile } = useContext(UserContext);
 
   if (!userProfile) {
     return (
-      <div className="flex items-center justify-center min-h-[60vh] mt-24">
-        <div className="text-gray-600 text-lg">Loading profile...</div>
+      <div>
+        <Spinner />
       </div>
     );
   }

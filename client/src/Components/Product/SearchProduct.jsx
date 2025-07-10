@@ -2,6 +2,7 @@ import AppContext from "../../Context/AppContext";
 import { useContext, useState } from "react";
 import { useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import Spinner from "../Spinner";
 
 const SearchProduct = () => {
   const { products } = useContext(AppContext);
@@ -55,7 +56,7 @@ const SearchProduct = () => {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center py-10">
-        <div className="w-12 h-12 border-4 border-t-red-500 border-b-transparent border-l-transparent border-r-transparent rounded-full animate-spin"></div>
+      <Spinner />
       </div>
     );
   }
@@ -92,11 +93,11 @@ const SearchProduct = () => {
                   <img
                     className=" w-full h-full object-cover hover:scale-105 transition delay-150 duration-700 ease-in-out "
                     src={
-                      product.imgSrc === "empty"
-                        ? "/mobileimagedefualt.jpeg"
-                        : hovered[product._id]
-                        ? "/mobileimagedefualt.jpeg"
-                        : product.imgSrc
+                     product.imgSrc === "empty"
+                  ? ""
+                  : hovered[product._id]
+                  ? product.imgHover
+                  : product.imgSrc
                     }
                     alt="Product Image"
                     loading="lazy"

@@ -1,10 +1,11 @@
 import { ProductModel } from "../Models/ProductModel.js";
+import { SlideShowModel } from "../Models/SlideShowModel.js";
 export const addProduct = async (req, res) => {
-    let { title, description, category, price, qty, imgSrc } = req.body
+    let { title, description, category, price, qty, imgSrc, imgHover } = req.body
 
     try {
         // Validate and clean fields
-        const fields = { title, description, category, price, qty, imgSrc };
+        const fields = { title, description, category, price, qty, imgSrc, imgHover };
 
         // if (fields.price != null) {
         //     const priceNum = Number(fields.price);
@@ -28,6 +29,7 @@ export const addProduct = async (req, res) => {
             fields
         )
         res.status(201).json({ message: 'product added sucessfult...', success: true, product: product })
+        console.log(product)
 
     } catch (error) {
         console.error(error);
@@ -124,6 +126,38 @@ export const deleteProductByID = async (req, res) => {
         }
 
         res.status(201).json({ message: 'product has been deleted', product: product, success: true })
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'internal Server error' });
+    }
+}
+
+// slideshow
+
+export const addSlideShow = async (req, res) => {
+    try {
+        let { title, description, category, imgSrc, videoSrc } = req.body
+        const createSlideShow = await SlideShowModel.create({
+            title, description, category, imgSrc: imgSrc || null, videoSrc: videoSrc || null
+        })
+
+        return res.status(201).json({ message: 'slideshow data is added', slideshow: createSlideShow, success: true })
+
+    } catch (error) {
+        res.status(500).json({ message: 'internal Server error' });
+    }
+}
+
+// get all data of slideshow
+export const getAllSlideShow = async (req, res) => {
+    try {
+        let slideshowdata = await SlideShowModel.find().sort({ createdAt: -1 });
+        if (slideshowdata .length === 0) {
+            return res.status(404).json({ message: 'slideshow data  not exist', success: false })
+        }
+
+        res.status(201).json({ message: 'all slideshow data fetched', slideshowdata: slideshowdata , success: true })
 
     } catch (error) {
         console.error(error);
