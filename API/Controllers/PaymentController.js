@@ -55,7 +55,7 @@ export const userOrder = async (req, res) => {
 export const allOrders = async (req, res) => {
     try {
         const orders = await PaymentModel.find().sort({ orderDate: -1 });
-        res.status(200).json({
+        res.status(201).json({
             success: true,
             orders: orders,
         });

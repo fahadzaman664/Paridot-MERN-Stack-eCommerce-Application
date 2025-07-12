@@ -15,7 +15,7 @@ export const addAddress = async (req, res) => {
             phoneNumber
         });
 
-        return res.status(201).json({ message: 'user address added succesfuly', success: true, Address: userAddress })
+        return res.status(201).json({ message: 'user address added succesfully', success: true, Address: userAddress })
 
 
     } catch (error) {
