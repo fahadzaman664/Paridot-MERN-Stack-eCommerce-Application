@@ -70,9 +70,10 @@ const Checkout = () => {
 
   return (
     <>
-      <div className="flex justify-between items-start mx-auto -mt-14 max-w-7xl w-full px-8 ">
+     <div className="flex flex-col-reverse md:flex-row justify-between items-start mx-auto -mt-14 max-w-7xl w-full px-4 gap-6">
+
         {/*start  contact info */}
-        <div>
+        <div >
           <div className="bg-white  rounded-lg  mb-6">
             <h2 className="text-2xl font-bold ">Contact Information</h2>
 
@@ -149,10 +150,10 @@ const Checkout = () => {
 
           {/* Proceed To Payment section start*/}
           {isCodSelected && (
-            <div className="flex justify-center mt-4">
+            <div className="flex justify-left md:justify-center mt-4">
               <button
                 type="submit"
-                className="w-80 bg-black text-white py-3 rounded cursor-pointer uppercase font-semibold hover:bg-gray-900 transition"
+                className="w-80 bg-black text-white py-3 rounded cursor-pointer uppercase font-semibold hover:bg-gray-900 transition "
                 onClick={() => {
                   handleOrder(
                     userAddress,
@@ -174,7 +175,7 @@ const Checkout = () => {
         {/* end Shipping adress detial*/}
 
         {/* summary section */}
-        <div className="border border-gray-300 w-96 mb-40 pb-2 ">
+     <div className="border border-gray-300 w-full max-w-md mx-auto md:mx-0 mb-10 pb-2">
           {/* start 1 ordersummary and total rs  */}
           <div className="flex justify-between border-b border-gray-400 mb-2 mt-4 w-80 mx-auto h-10 ">
             <p className="mx-4 font-normal "> Order Summary ({quantity})</p>

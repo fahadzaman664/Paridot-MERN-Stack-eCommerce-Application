@@ -16,6 +16,7 @@ const AppState = (props) => {
   const [userOrder, setUserOrder] = useState([]);
   const [lastAddedProduct, setLastAddedProduct] = useState(null);
 
+
   useEffect(() => {
     const savedToken = localStorage.getItem("token");
     if (savedToken) {
@@ -85,7 +86,6 @@ const AppState = (props) => {
         "Failed to add product to cart:",
         error.response?.data || error.message
       );
-     
     }
   };
 
@@ -269,13 +269,11 @@ const AppState = (props) => {
         withCredentials: true,
       });
       setUserOrder(response.data.order);
-      console.log("user order", response.data.order);
       return response.data;
     } catch (error) {
       console.error("fetch user order error:", error);
     }
   };
-
 
   return (
     <AppContext.Provider

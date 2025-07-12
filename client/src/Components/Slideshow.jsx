@@ -25,7 +25,6 @@ const SlideShow = () => {
         });
         setSlideShowData(api.data.slideshowdata);
         setLoading(false);
-        console.log("slideshow", slideShowData);
       } catch (error) {
         console.error(
           "Failed to fetch products:",

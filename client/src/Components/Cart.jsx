@@ -164,7 +164,7 @@ const Cart = () => {
 
       {cart?.items && cart?.items?.length > 0 ? (
         <>
-          <div className="hidden md:grid grid-cols-[2fr_1fr_1fr_1fr] gap-4 border-b border-gray-300 py-4">
+          <div className="hidden md:grid grid-cols-[2fr_1fr_1fr_1fr] gap-4  border-b border-gray-300 py-4 sm:py-2">
             <div className="mx-8 w-full">
               {cart?.items && cart?.items?.length > 0 && (
                 <p className="font-semibold text-1xl leading-6 uppercase">
@@ -174,7 +174,7 @@ const Cart = () => {
               )}
             </div>
 
-            <div className="  font-semibold text-1xl leading-6 uppercase">
+            <div className=" font-semibold text-1xl leading-6 uppercase">
               <p>Price</p>
             </div>
 
@@ -190,13 +190,13 @@ const Cart = () => {
           {cart?.items?.map((product) => (
             <div
               key={product._id}
-              className=" flex flex-col md:grid md:grid-cols-[2fr_1fr_1fr_1fr]  gap-4 py-8 sm:space-x-8"
+              className=" flex  flex-col md:grid md:grid-cols-[2fr_1fr_1fr_1fr]  gap-4 py-8 sm:space-x-6"
             >
               <div className="flex items-start space-x-4  ">
                 <img
                   className="w-20 h-20 object-cover border border-gray-100 "
                   src={product.imgSrc}
-                  alt=""
+                  alt={product.title}
                 />
                 <p className="text-base font-semibold mt-2 relative ">
                   {product.title}
@@ -214,21 +214,22 @@ const Cart = () => {
                   }}
                 />
               </div>
-
-              <div className="text-sm text-gray-500 ">
-                 Rs.{" "}
-                {products
-                  .find((p) => p._id === product.productId)
-                  ?.price?.toLocaleString()}
+              <div className="text-md md:pb-10 md:mr-44 text-black font-medium text-center sm:text-left sm:flex sm:items-center sm:justify-center">
+                <span className="">Rs.</span>
+                <span>
+                  {products
+                    .find((p) => p._id === product.productId)
+                    ?.price?.toLocaleString()}
+                </span>
               </div>
 
-              <div className="flex items-center justify-center ">
+              <div className="flex mx-4 items-center  md:mr-44  justify-center ">
                 <FontAwesomeIcon
                   onClick={() => decreaseQty(product.productId, 1)}
                   icon={faSquareMinus}
-                  className="text-2xl cursor-pointer "
+                  className="text-2xl mb-12 cursor-pointer "
                 />
-                <p className="p-5 text-1xl">{product.qty}</p>
+                <p className="mb-12 px-4 text-1xl">{product.qty}</p>
                 <FontAwesomeIcon
                   onClick={() =>
                     onClickAddToCart(
@@ -241,12 +242,13 @@ const Cart = () => {
                     )
                   }
                   icon={faSquarePlus}
-                  className="text-2xl cursor-pointer"
+                  className="text-2xl mb-12 cursor-pointer"
                 />
               </div>
               {/* Total */}
-              <div className="text-md leading-6 font-normal text-black mx-4 md:mt-2">
-                Rs, {product.price}
+              <div className="text-md leading-6 font-normal text-black   text-center md:text-left">
+                <span className="block md:hidden font-semibold ">Total:</span>
+                Rs. {product.price.toLocaleString()}
               </div>
             </div>
           ))}
@@ -272,19 +274,19 @@ const Cart = () => {
             </div>
 
             <div className="flex flex-col ">
-              <div className="mr-10">
+              <div className="ml-2 md:mr-10 md:text-left">
                 <h2 className=" text-1xl font-bold">
                   TOTALQUANTITY: {quantity}
                 </h2>
               </div>
 
-              <div className="mr-10 pt-5">
+              <div className="ml-2 md:mr-10 md:text-left pt-5">
                 <h2 className=" text-1xl font-bold ">
                   SUBTOTAL: <span className="mx-1"> Rs,{price}</span>
                 </h2>
               </div>
 
-              <div className="mt-4 md:mt-6 mr-0  md:mr-10 -ml-8  ">
+              <div className="mt-4 md:mt-6 mr-0  md:mr-10 md:-ml-8   ">
                 <Button
                   className="w-60 p-2  bg-black text-white rounded-full  hover:bg-gray-900 transition"
                   onClick={() => navigate("/checkout/address")}

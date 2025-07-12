@@ -30,10 +30,6 @@ const ProductDetail = () => {
     setquantity((prev) => (prev > 1 ? prev - 1 : 1));
   };
 
-  const handleMouseLeave = () => {
-    setZoomData({ ...zoomData, show: false });
-  };
-
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -90,7 +86,7 @@ const ProductDetail = () => {
 
   return (
     <div className="block ">
-      <div className="flex flex-row flex-wrap justify-center items-center sm:items-start sm:gap-x-8       gap-y-8 mt-10 px-4  ">
+      <div className="flex flex-row flex-wrap justify-center items-center sm:items-start sm:gap-x-8 gap-y-8 mt-10 px-4  ">
         <div className="h-full ">
           <ProductImageZoom src={product.imgSrc} />
         </div>

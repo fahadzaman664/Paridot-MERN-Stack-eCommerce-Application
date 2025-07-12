@@ -1,4 +1,4 @@
-import React, { useContext, useState , useEffect} from "react";
+import React, { useContext, useState, useEffect } from "react";
 import AppContext from "../Context/AppContext";
 import UserContext from "../Context/UserContext";
 import { useNavigate } from "react-router-dom";
@@ -7,32 +7,28 @@ const OrderConfirmed = () => {
   const { userProfile } = useContext(UserContext);
   const navigate = useNavigate();
 
-
-
-
-
-
   return (
     <>
-      <div className="flex justify-between items-start mx-auto -mt-14 max-w-7xl w-full px-8 ">
+      <div className="bg-white flex justify-center items-start md:items-center md:text-center rounded-lg mb-20 shadow w-auto px-4">
+  <h2 className="text-sm sm:text-base md:text-2xl lg:text-3xl font-bold text-green-600 text-center">
+    Your order has been confirmed, please check your email
+  </h2>
+</div>
+
+      <div className="flex flex-col-reverse md:flex-row md:justify-between md:items-start md:mx-auto md:-mt-14 md:max-w-6xl md:w-full md:px-8 ">
         {/*start  contact info */}
         <div>
-          <div className="bg-white flex justify-center items-center rounded-lg mb-6 p-6 shadow">
-            <h2 className="text-2xl font-bold text-green-600 text-center">
-              Your order has been confirmed
-            </h2>
-          </div>
-          <div className="bg-white  rounded-lg mt-6  mb-6">
+          <div className="bg-white  rounded-lg md:mt-6 mx-4 md:mx-0  mb-6">
             <h2 className="text-2xl font-bold ">Contact Information</h2>
 
-            <div className="">
+            <div className="  md:mx-0 ">
               <p className="text-1xl text-gray-800">{userProfile.email}</p>
             </div>
           </div>
           {/* end contact info */}
 
           {/* start Shipping adress detail*/}
-          <div className="  w-200 mt-4   pb-24 -mt-8 rounded shadow">
+          <div className=" mx-4 md:mx-0 w-96 md:mt-4 pb-10 md:-mt-8 rounded shadow">
             <div className=" flex justify-between">
               <p className="  text-2xl font-bold mb-6 ">
                 <span>Shipping Address</span>
@@ -83,7 +79,7 @@ const OrderConfirmed = () => {
         {/* end Shipping adress detial*/}
 
         {/* summary section */}
-        <div className="border border-gray-300 w-96 mb-40 pb-2 ">
+        <div className="border border-gray-300 w-96 mb-10 pb-2 mx-4 ">
           {/* start 1 ordersummary and total rs  */}
           <div className="flex justify-between border-b border-gray-400 mb-2 mt-4 w-80 mx-auto h-10 ">
             <p className="mx-4 font-normal ">

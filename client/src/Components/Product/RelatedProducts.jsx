@@ -74,18 +74,22 @@ const RelatedProducts = ({ category, currentProductId }) => {
           </div>
 
           <div className="overflow-x-auto w-full">
-            <div className="flex flex-wrap justify-center gap-x-5 gap-y-10  mb-20">
+            <div className=" flex flex-wrap justify-center md:gap-x-3 sm:gap-x-4 gap-y-6 px-2 sm:px-4  mb-20">
               {relatedProducts.length > 0 ? (
                 (relatedProducts || []).map((product) => (
                   <div
+                    className={`${
+                      relatedProducts.length === 1
+                        ? "w-[300px] mx-auto"
+                        : "w-[48%] sm:w-[48%] md:w-[30%] lg:w-[23%]"
+                    } bg-white flex flex-col justify-center relative p-2 rounded-md shadow-sm`}
                     key={product._id}
-                    className="bg-white h-full w-80 min-w-[250px] flex flex-col justify-center relative "
                     onMouseEnter={() => handleHover(product._id, true)}
                     onMouseLeave={() => handleHover(product._id, false)}
                   >
                     <Link
                       to={`/product/${product._id}`}
-                      className="w-full h-96 object-cover overflow-hidden relative "
+                      className="w-full h-60 md:h-96  object-cover overflow-hidden relative "
                     >
                       <img
                         className=" w-full h-full object-cover hover:scale-105 transition delay-150 duration-700 ease-in-out "
@@ -103,13 +107,13 @@ const RelatedProducts = ({ category, currentProductId }) => {
 
                     <div className=" mt-4 ">
                       <div className="flex justify-between items-center ">
-                        <p className="text-lg font-semibold text-gray-900 dark:text-white">
+                        <p className="text-md font-semibold text-gray-900 dark:text-white">
                           {product.title}
                         </p>
                       </div>
                       <div>
                         {hovered[product._id] && (
-                          <div className=" absolute bottom-5 right-5  ">
+                          <div className=" absolute  md:left-45 sm:left-45  ">
                             <button
                               className="relative bg-black text-white w-30 h-[42px] rounded-md cursor-pointer overflow-hidden group "
                               onClick={() =>
