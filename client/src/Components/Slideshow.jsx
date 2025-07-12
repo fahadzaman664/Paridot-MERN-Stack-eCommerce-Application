@@ -14,7 +14,9 @@ const SlideShow = () => {
   const location = useLocation();
   const [slideShowData, setSlideShowData] = useState("");
   const [loading, setLoading] = useState(true);
-  const url = "http://localhost:1000";
+  //const url = "http://localhost:1000";
+    const url = "https://paidot-mern-ecommerce-api.onrender.com";
+
 
   useEffect(() => {
     const fetchdata = async () => {

@@ -15,7 +15,9 @@ const ProductDetail = () => {
     setCartSheetOpen,
   } = useContext(AppContext);
 
-  const url = "http://localhost:1000";
+ // const url = "http://localhost:1000";
+    const url = "https://paidot-mern-ecommerce-api.onrender.com";
+
   const [product, setProduct] = useState();
   const [isOpen, setIsOpen] = useState(false);
   const [quantity, setquantity] = useState(1);
@@ -55,6 +57,21 @@ const ProductDetail = () => {
 
   const onClickAddToCart = async (title, price, qty, productId, imgSrc) => {
     const response = await addToCart(title, price, qty, productId, imgSrc);
+     const savedToken = localStorage.getItem("token");
+    if (!savedToken) {
+      return toast.error("You must be logged in to add to cart.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+    }
+    
     if (!response.success) {
       toast.error(response.message);
     }

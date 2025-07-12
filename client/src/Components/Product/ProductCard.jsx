@@ -25,6 +25,7 @@ const ProductCard = () => {
     }
   }, [filteredData]);
 
+
   const fetchMoreData = () => {
     const nextItems = filteredData.slice(
       visibleProducts.length,
@@ -46,6 +47,21 @@ const ProductCard = () => {
 
   const onClickAddToCart = async (title, price, qty, productId, imgSrc) => {
     const response = await addToCart(title, price, qty, productId, imgSrc);
+    const savedToken = localStorage.getItem("token");
+    if (!savedToken) {
+      return toast.error("You must be logged in to add to cart.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+    }
+
     if (response.success) {
       const updatedCart = response.data;
 
@@ -91,7 +107,7 @@ const ProductCard = () => {
         </p>
       }
     >
-      <div className=" flex flex-wrap justify-center md:gap-x-3 sm:gap-x-4 gap-y-6 px-2 sm:px-4  mb-20">
+      <div className=" flex flex-wrap justify-center md:gap-x-8 sm:gap-x-4 gap-y-6  sm:px-4  mb-20">
         {(visibleProducts || []).map((product) => (
           <div
             className={`${
@@ -121,7 +137,7 @@ const ProductCard = () => {
               />
             </Link>
 
-            <div className=" mt-4 ">
+            <div className=" mt-2 ">
               <div className="flex justify-between items-center ">
                 <p className="text-md font-semibold text-gray-900 dark:text-white ">
                   {product.title}
@@ -129,7 +145,7 @@ const ProductCard = () => {
               </div>
               <div>
                 {hovered[product._id] && (
-                  <div className=" absolute md:left-45 sm:left-45  ">
+                  <div className=" absolute md:left-35  sm:left-45  ">
                     <button
                       className="relative bg-black text-white w-30 h-[42px] rounded-md cursor-pointer overflow-hidden group "
                       onClick={() =>

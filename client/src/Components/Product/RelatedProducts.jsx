@@ -31,6 +31,20 @@ const RelatedProducts = ({ category, currentProductId }) => {
 
   const onClickAddToCart = async (title, price, qty, productId, imgSrc) => {
     const response = await addToCart(title, price, qty, productId, imgSrc);
+     const savedToken = localStorage.getItem("token");
+    if (!savedToken) {
+      return toast.error("You must be logged in to add to cart.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+    }
     if (!response.success) {
       toast.error(response.message);
     }

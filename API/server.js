@@ -17,11 +17,21 @@ app.use(express.json());
 // (Optional) Add this if using URL-encoded data (like from forms)
 app.use(express.urlencoded({ extended: true }));
 // (Optional) Enable CORS
+// app.use(cors({
+//   origin: true,
+//   methods: ["GET", "POST", "PUT", "DELETE"],
+//   credentials: true
+// }));
+
 app.use(cors({
-  origin: true,
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true
+  origin: [
+    "http://localhost:5173",
+    "https://paidot-mern-ecommerce-client-fronte.vercel.app"
+  ],
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE"]
 }));
+
 
 //home
 app.get('/', (req, res) => {

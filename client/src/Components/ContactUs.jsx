@@ -7,7 +7,9 @@ const ContactUs = () => {
     email: "",
     message: "",
   });
-  const url = "http://localhost:1000";
+  //const url = "http://localhost:1000";
+    const url = "https://paidot-mern-ecommerce-api.onrender.com";
+
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
