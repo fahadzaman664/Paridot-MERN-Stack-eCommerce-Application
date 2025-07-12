@@ -28,7 +28,7 @@ export const addProduct = async (req, res) => {
         let product = await ProductModel.create(
             fields
         )
-        res.status(201).json({ message: 'product added sucessfult...', success: true, product: product })
+        res.status(201).json({ message: 'product added sucessfully...', success: true, product: product })
         console.log(product)
 
     } catch (error) {
