@@ -151,14 +151,14 @@ const SearchProduct = () => {
 
                 <div className="mt-4">
                   <div className="flex justify-between items-center">
-                    <p className="text-md font-semibold text-gray-900 dark:text-white">
+                    <p className="text-md font-semibold text-gray-900 ">
                       {highlightMatch(product.title, term)}
                     </p>
                   </div>
 
                   <div>
                     {hovered[product._id] && (
-                      <div className=" absolute md:left-45 sm:left-45   ">
+                      <div className=" absolute md:left-35  sm:left-45   ">
                         <button
                           className="relative bg-black text-white w-30 h-[42px] rounded-md cursor-pointer overflow-hidden group "
                           onClick={() =>
@@ -183,7 +183,7 @@ const SearchProduct = () => {
                     )}
                   </div>
                   <div className="flex justify-between items-center mt-2">
-                    <b className="text-red-600  dark:text-green-400 font-semibold">
+                    <b className="text-red-600   font-semibold">
                       Rs. {product.price.toLocaleString()}
                     </b>
                   </div>

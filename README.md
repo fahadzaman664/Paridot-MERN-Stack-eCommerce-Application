@@ -1,5 +1,7 @@
 <<<<<<< HEAD
 # Paridot-MERN-Stack-eCommerce-Application
+Live Link: https://paidot-mern-ecommerce-client-fronte.vercel.app/
+APi: https://paidot-mern-ecommerce-api.onrender.com/
 🛍️ Paridot – MERN Stack eCommerce Application
 Paridot is a full-featured eCommerce web application built using the MERN stack (MongoDB, Express.js, React.js, and Node.js). It is designed to offer a modern and seamless shopping experience with dynamic product management, secure authentication, and efficient backend integration.
 

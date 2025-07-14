@@ -10,21 +10,30 @@ const ProductCard = () => {
     filteredData,
     addToCart,
     setLastAddedProduct,
-    setCart,
     setCartSheetOpen,
   } = useContext(AppContext);
+  
   const [hovered, setHovered] = useState({});
-
   const [visibleProducts, setVisibleProducts] = useState([]);
   const [hasMore, setHasMore] = useState(true);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
   const itemsPerPage = 4;
+
   useEffect(() => {
-    if (filteredData && filteredData.length > 0) {
-      setVisibleProducts(filteredData.slice(0, itemsPerPage));
-      setHasMore(filteredData.length > itemsPerPage);
+    // Only process if filteredData is actually loaded (not null/undefined)
+    if (filteredData !== null && filteredData !== undefined) {
+      setIsInitialLoad(false);
+      
+      if (filteredData.length > 0) {
+        setVisibleProducts(filteredData.slice(0, itemsPerPage));
+        setHasMore(filteredData.length > itemsPerPage);
+      } else {
+        // Products loaded but empty - this is different from loading
+        setVisibleProducts([]);
+        setHasMore(false);
+      }
     }
   }, [filteredData]);
-
 
   const fetchMoreData = () => {
     const nextItems = filteredData.slice(
@@ -87,10 +96,22 @@ const ProductCard = () => {
     }
   };
 
-  if (!filteredData) {
+  // Show spinner only during initial load
+  if (isInitialLoad || filteredData === null || filteredData === undefined) {
     return (
       <div className="p-6 flex justify-center">
-        <Spinner />{" "}
+        <Spinner />
+      </div>
+    );
+  }
+
+  // Show no products message if loaded but empty
+  if (filteredData.length === 0) {
+    return (
+      <div className="p-6 flex justify-center">
+        <p className="text-center mt-6 font-semibold text-gray-500">
+          No products found
+        </p>
       </div>
     );
   }
@@ -103,12 +124,12 @@ const ProductCard = () => {
       loader={<Spinner />}
       endMessage={
         <p className="text-center mt-6 font-semibold text-gray-500">
-          You’ve reached the end!
+          You've reached the end!
         </p>
       }
     >
       <div className=" flex flex-wrap justify-center md:gap-x-8 sm:gap-x-4 gap-y-6  sm:px-4  mb-20">
-        {(visibleProducts || []).map((product) => (
+        {visibleProducts.map((product) => (
           <div
             className={`${
               visibleProducts.length === 1
@@ -139,7 +160,7 @@ const ProductCard = () => {
 
             <div className=" mt-2 ">
               <div className="flex justify-between items-center ">
-                <p className="text-md font-semibold text-gray-900 dark:text-white ">
+                <p className="text-md font-semibold text-gray-900  ">
                   {product.title}
                 </p>
               </div>
@@ -170,7 +191,7 @@ const ProductCard = () => {
                 )}
               </div>
               <div className="flex justify-between items-center mt-2">
-                <b className="text-red-600 dark:text-green-400 font-semibold">
+                <b className="text-red-600 font-semibold">
                   Rs. {Number(product.price).toLocaleString()}{" "}
                 </b>
               </div>

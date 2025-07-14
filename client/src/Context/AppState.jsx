@@ -3,7 +3,8 @@ import axios from "axios";
 import AppContext from "./AppContext.jsx";
 import UserContext from "./UserContext.jsx";
 const AppState = (props) => {
-  const url = "http://localhost:1000";
+  //const url = "http://localhost:1000";
+  const url = "https://paidot-mern-ecommerce-api.onrender.com";
   const { token, setToken, setIsAthenticated } = useContext(UserContext);
   const [filteredData, setFilteredData] = useState([]);
   const [products, setProduct] = useState([]);
