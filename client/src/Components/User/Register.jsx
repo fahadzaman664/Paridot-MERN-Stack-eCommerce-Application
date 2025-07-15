@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import UserContext from "../../Context/UserContext";
-
+import Alert from "../Alert";
 const Register = () => {
   const { registerUser } = useContext(UserContext);
   const [password, setPassword] = useState("");
@@ -11,6 +11,7 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [alert, setAlert] = useState(null);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -31,13 +32,17 @@ const Register = () => {
 
     const result = await registerUser(email, fullName, password);
     if (result.success) {
+      setAlert({ color: "success", message: "successfuly registered" });
+
       setFullName("");
       setEmail("");
       setPassword("");
+      setTimeout(() => {
+      setAlert(null); 
       navigate("/Login");
-    }
-  else {
-       alert(result.message || 'login failed');
+    }, 2000);
+    } else {
+      alert(result.message || "Registration failed");
     }
 
     setError("");
@@ -49,6 +54,15 @@ const Register = () => {
         className="bg-white shadow-md rounded-lg p-8 w-full max-w-md space-y-4"
         onSubmit={handleSubmit}
       >
+        {/* Alert */}
+        {alert && (
+          <Alert
+            color={alert.color}
+            message={alert.message}
+            onClose={() => setAlert(null)}
+          />
+        )}
+
         {/* Title */}
         <h2 className="text-2xl font-bold text-center text-gray-800">
           Register

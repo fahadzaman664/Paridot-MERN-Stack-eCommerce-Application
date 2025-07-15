@@ -6,31 +6,38 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import Spinner from "../Spinner";
 
 const ProductCard = () => {
-  const {
-    filteredData,
-    addToCart,
-    setLastAddedProduct,
-    setCartSheetOpen,
-  } = useContext(AppContext);
-  
+  const { filteredData, addToCart, setLastAddedProduct, setCartSheetOpen } =
+    useContext(AppContext);
+
   const [hovered, setHovered] = useState({});
   const [visibleProducts, setVisibleProducts] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const [showEndMessage, setShowEndMessage] = useState(false);
+  const [noProductFound, setNoProductFound] = useState(false);
   const itemsPerPage = 4;
+
+   // Wait until filteredData is available to mark loading complete
+  useEffect(() => {
+    if (filteredData !== null && filteredData !== undefined) {
+      setIsInitialLoad(false);
+    }
+  }, [filteredData]);
 
   useEffect(() => {
     // Only process if filteredData is actually loaded (not null/undefined)
-    if (filteredData !== null && filteredData !== undefined) {
-      setIsInitialLoad(false);
-      
+    if (!isInitialLoad && Array.isArray(filteredData)) {
+
       if (filteredData.length > 0) {
         setVisibleProducts(filteredData.slice(0, itemsPerPage));
         setHasMore(filteredData.length > itemsPerPage);
+         setNoProductFound(false);
       } else {
         // Products loaded but empty - this is different from loading
         setVisibleProducts([]);
         setHasMore(false);
+        
+        setNoProductFound(true);
       }
     }
   }, [filteredData]);
@@ -44,6 +51,9 @@ const ProductCard = () => {
     setVisibleProducts((prev) => [...prev, ...nextItems]);
 
     if (visibleProducts.length + nextItems.length >= filteredData.length) {
+      // setTimeout(() => {
+        setShowEndMessage(true);
+      // }, 1000);
       setHasMore(false);
     }
   };
@@ -106,7 +116,7 @@ const ProductCard = () => {
   }
 
   // Show no products message if loaded but empty
-  if (filteredData.length === 0) {
+  if (noProductFound) {
     return (
       <div className="p-6 flex justify-center">
         <p className="text-center mt-6 font-semibold text-gray-500">
@@ -123,9 +133,11 @@ const ProductCard = () => {
       hasMore={hasMore}
       loader={<Spinner />}
       endMessage={
-        <p className="text-center mt-6 font-semibold text-gray-500">
-          You've reached the end!
-        </p>
+        showEndMessage && (
+          <p className="text-center mt-6 font-semibold text-gray-500">
+            You've reached the end!
+          </p>
+        )
       }
     >
       <div className=" flex flex-wrap justify-center md:gap-x-8 sm:gap-x-4 gap-y-6  sm:px-4  mb-20">
