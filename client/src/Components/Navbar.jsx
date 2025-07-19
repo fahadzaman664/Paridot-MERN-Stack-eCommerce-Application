@@ -195,7 +195,8 @@ const Navbar = () => {
               />
             </div>
           </form>
-          
+         {/* <Link to="/smartsearch">SmartSearch</Link> */}
+
           {/* Desktop Suggestions */}
           {suggestion.length > 0 && (
             <ul className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg mt-1 max-h-48 overflow-y-auto z-50">
@@ -224,10 +225,13 @@ const Navbar = () => {
 
           {/* Cart Button */}
           {isAuthenticated && (
-            <Link to="/cart" className="relative p-2 rounded-md hover:bg-gray-100">
-              <FontAwesomeIcon 
-                icon={faCartShopping} 
-                className="h-5 w-5 text-gray-700" 
+            <Link
+              to="/cart"
+              className="relative p-2 rounded-md hover:bg-gray-100"
+            >
+              <FontAwesomeIcon
+                icon={faCartShopping}
+                className="h-5 w-5 text-gray-700"
               />
               {cart?.items && cart.items.length > 0 && (
                 <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
@@ -277,10 +281,7 @@ const Navbar = () => {
                 <UserIcon className="h-6 w-6 text-gray-700" />
               </Link>
             ) : (
-              <Link
-                to="/Login"
-                className="p-2 rounded-md hover:bg-gray-100"
-              >
+              <Link to="/Login" className="p-2 rounded-md hover:bg-gray-100">
                 <UserIcon className="h-6 w-6 text-gray-700" />
               </Link>
             )}
@@ -290,7 +291,7 @@ const Navbar = () => {
 
       {/* Desktop Navigation Menu */}
       {location.pathname !== "/checkout/address" &&
-        location.pathname !== "/CheckOut" && (
+        location.pathname !== "/CheckOut" && location.pathname!== "/smartsearch" && (
           <div className="hidden lg:block border-t border-gray-200">
             <div className="flex justify-center items-center md:space-x-8 md:py-3">
               <button
@@ -299,14 +300,14 @@ const Navbar = () => {
               >
                 New In
               </button>
-              
+
               <button
                 onClick={() => filterByCategory("Women Clothes")}
                 className="text-gray-700 hover:text-red-500 font-medium transition-colors uppercase"
               >
                 Women
               </button>
-              
+
               <button
                 onClick={() => filterByCategory("Man Clothes")}
                 className="text-gray-700 hover:text-red-500 font-medium transition-colors uppercase"
@@ -396,7 +397,7 @@ const Navbar = () => {
               <XMarkIcon className="h-6 w-6" />
             </button>
           </div>
-          
+
           <div className="p-4">
             <form onSubmit={handleSubmit}>
               <div className="relative">
@@ -414,7 +415,7 @@ const Navbar = () => {
                 />
               </div>
             </form>
-            
+
             {/* Mobile Suggestions */}
             {suggestion.length > 0 && (
               <ul className="mt-4 space-y-2">
@@ -445,7 +446,7 @@ const Navbar = () => {
               <XMarkIcon className="h-6 w-6" />
             </button>
           </div>
-          
+
           <div className="p-4 ">
             <button
               onClick={() => filterByNewIn()}
@@ -453,14 +454,14 @@ const Navbar = () => {
             >
               New In
             </button>
-            
+
             <button
               onClick={() => filterByCategory("Women Clothes")}
               className="block w-full text-left p-3 hover:bg-gray-50 rounded-lg font-medium"
             >
               Women
             </button>
-            
+
             <button
               onClick={() => filterByCategory("Man Clothes")}
               className="block w-full text-left p-3 hover:bg-gray-50 rounded-lg font-medium"
@@ -471,13 +472,17 @@ const Navbar = () => {
             {/* Mobile Perfumes Dropdown */}
             <div>
               <button
-                onClick={() => toggleDropdown('perfumes')}
+                onClick={() => toggleDropdown("perfumes")}
                 className="flex items-center justify-between w-full p-3 hover:bg-gray-50 rounded-lg font-medium"
               >
                 Perfumes
-                <ChevronDownIcon className={`h-5 w-5 transition-transform ${activeDropdown === 'perfumes' ? 'rotate-180' : ''}`} />
+                <ChevronDownIcon
+                  className={`h-5 w-5 transition-transform ${
+                    activeDropdown === "perfumes" ? "rotate-180" : ""
+                  }`}
+                />
               </button>
-              {activeDropdown === 'perfumes' && (
+              {activeDropdown === "perfumes" && (
                 <div className="ml-4 mt-2 space-y-2">
                   <button
                     onClick={() => filterByCategory("perfume-men")}
@@ -498,13 +503,17 @@ const Navbar = () => {
             {/* Mobile Price Dropdown */}
             <div>
               <button
-                onClick={() => toggleDropdown('price')}
+                onClick={() => toggleDropdown("price")}
                 className="flex items-center justify-between w-full p-3 hover:bg-gray-50 rounded-lg font-medium"
               >
                 Price
-                <ChevronDownIcon className={`h-5 w-5 transition-transform ${activeDropdown === 'price' ? 'rotate-180' : ''}`} />
+                <ChevronDownIcon
+                  className={`h-5 w-5 transition-transform ${
+                    activeDropdown === "price" ? "rotate-180" : ""
+                  }`}
+                />
               </button>
-              {activeDropdown === 'price' && (
+              {activeDropdown === "price" && (
                 <div className="ml-4 mt-2 space-y-2">
                   <button
                     onClick={() => handlePriceFilter("low")}
@@ -532,13 +541,17 @@ const Navbar = () => {
             {/* Mobile Kids Dropdown */}
             <div>
               <button
-                onClick={() => toggleDropdown('kids')}
+                onClick={() => toggleDropdown("kids")}
                 className="flex items-center justify-between w-full p-3 hover:bg-gray-50 rounded-lg font-medium"
               >
                 Kids
-                <ChevronDownIcon className={`h-5 w-5 transition-transform ${activeDropdown === 'kids' ? 'rotate-180' : ''}`} />
+                <ChevronDownIcon
+                  className={`h-5 w-5 transition-transform ${
+                    activeDropdown === "kids" ? "rotate-180" : ""
+                  }`}
+                />
               </button>
-              {activeDropdown === 'kids' && (
+              {activeDropdown === "kids" && (
                 <div className="ml-4 mt-2 space-y-2">
                   <button
                     onClick={() => filterByCategory("Kid-Boys")}

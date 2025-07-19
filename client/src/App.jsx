@@ -18,6 +18,7 @@ import SlideShow from "./Components/Slideshow";
 import Footer from "./Components/Footer";
 import ContactUs from "./Components/ContactUs";
 import ScrollToTop from "./Components/ScrollToTop";
+import SmartSearch from "./Components/SmartSearch";
 
 const App = () => {
   return (
@@ -58,10 +59,10 @@ const App = () => {
               element={<OrderConfirmed />}
             />
             <Route path="/contact" element={<ContactUs />} />
-           
+            <Route path="/smartsearch" element={<SmartSearch />} />
           </Routes>
         </div>
-         <Footer />
+        <Footer />
       </Router>
     </div>
   );

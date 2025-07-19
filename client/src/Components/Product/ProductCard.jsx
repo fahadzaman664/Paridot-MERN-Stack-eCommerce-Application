@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, useCallback } from "react";
 import AppContext from "../../Context/AppContext";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast, Bounce } from "react-toastify";
@@ -17,7 +17,12 @@ const ProductCard = () => {
   const [noProductFound, setNoProductFound] = useState(false);
   const itemsPerPage = 4;
 
-   // Wait until filteredData is available to mark loading complete
+  useEffect(() => {
+    // Reset hover state when products change
+    setHovered({});
+  }, [filteredData]);
+
+  // Wait until filteredData is available to mark loading complete
   useEffect(() => {
     if (filteredData !== null && filteredData !== undefined) {
       setIsInitialLoad(false);
@@ -27,20 +32,19 @@ const ProductCard = () => {
   useEffect(() => {
     // Only process if filteredData is actually loaded (not null/undefined)
     if (!isInitialLoad && Array.isArray(filteredData)) {
-
       if (filteredData.length > 0) {
         setVisibleProducts(filteredData.slice(0, itemsPerPage));
         setHasMore(filteredData.length > itemsPerPage);
-         setNoProductFound(false);
+        setNoProductFound(false);
       } else {
         // Products loaded but empty - this is different from loading
         setVisibleProducts([]);
         setHasMore(false);
-        
+
         setNoProductFound(true);
       }
     }
-  }, [filteredData]);
+  }, [filteredData, isInitialLoad]);
 
   const fetchMoreData = () => {
     const nextItems = filteredData.slice(
@@ -52,20 +56,20 @@ const ProductCard = () => {
 
     if (visibleProducts.length + nextItems.length >= filteredData.length) {
       // setTimeout(() => {
-        setShowEndMessage(true);
+      setShowEndMessage(true);
       // }, 1000);
       setHasMore(false);
     }
   };
 
-  const handleHover = (id, isHovering) => {
-    setHovered((prev) => {
-      return { ...prev, [id]: isHovering };
-    });
-  };
+  const handleHover = useCallback((id, isHovering) => {
+    setHovered((prev) => ({
+      ...prev,
+      [id]: isHovering,
+    }));
+  }, []);
 
   const onClickAddToCart = async (title, price, qty, productId, imgSrc) => {
-    const response = await addToCart(title, price, qty, productId, imgSrc);
     const savedToken = localStorage.getItem("token");
     if (!savedToken) {
       return toast.error("You must be logged in to add to cart.", {
@@ -80,7 +84,7 @@ const ProductCard = () => {
         transition: Bounce,
       });
     }
-
+    const response = await addToCart(title, price, qty, productId, imgSrc);
     if (response.success) {
       const updatedCart = response.data;
 

@@ -1,5 +1,5 @@
 import AppContext from "../../Context/AppContext";
-import { useContext, useState } from "react";
+import { useContext, useState , useCallback} from "react";
 import { useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Spinner from "../Spinner";
@@ -16,11 +16,14 @@ const SearchProduct = () => {
 
   const { term } = useParams();
 
-  const handleHover = (id, isHovering) => {
-    setHovered((prev) => {
-      return { ...prev, [id]: isHovering };
-    });
-  };
+  const handleHover = useCallback((id, isHovering) => {
+    setHovered((prev) => ({ ...prev, [id]: isHovering }));
+  }, []);
+
+  useEffect(() => {
+    // Reset hover state when search results change
+    setHovered({});
+  }, [searchProduct]);
 
   useEffect(() => {
     if (!term) {
@@ -28,20 +31,28 @@ const SearchProduct = () => {
       navigate("/"); // Or any page you want
       return;
     }
+   // Only show loading if products aren't loaded yet
+  if (!products) {
     setIsLoading(true);
+    return;
+  }
     if (products && term) {
-      const filtered = products.filter((data) =>
-        data.title.toLowerCase().includes(term.trim().toLowerCase())
-      );
+      const filtered = products.filter((data) => {
+        const productTitle = data.title.toLowerCase();
+        const searchTerm = term.trim().toLowerCase();
+        return productTitle.includes(searchTerm);
+      });
       setSearchProduct(filtered);
     }
-    setTimeout(() => setIsLoading(false), 500);
+    setIsLoading(false);
   }, [term, products, navigate]);
 
   // for highliting text in product card while searching
-  const highlightMatch = (text, search) => {
+
+  const highlightMatch = useCallback((text, search) => {
     if (!search) return text;
-    const regex = new RegExp(`(${search})`, "gi");
+    const escapedSearch = search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const regex = new RegExp(`(${escapedSearch})`, "gi");
     return text.split(regex).map((part, index) =>
       part.toLowerCase() === search.toLowerCase() ? (
         <span key={index} className="bg-yellow-200">
@@ -51,10 +62,10 @@ const SearchProduct = () => {
         part
       )
     );
-  };
+  }, []);
+
   const onClickAddToCart = async (title, price, qty, productId, imgSrc) => {
-    const response = await addToCart(title, price, qty, productId, imgSrc);
-     const savedToken = localStorage.getItem("token");
+    const savedToken = localStorage.getItem("token");
     if (!savedToken) {
       return toast.error("You must be logged in to add to cart.", {
         position: "top-right",
@@ -68,6 +79,7 @@ const SearchProduct = () => {
         transition: Bounce,
       });
     }
+    const response = await addToCart(title, price, qty, productId, imgSrc);
     if (response.success) {
       const updatedCart = response.data;
 

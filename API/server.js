@@ -8,6 +8,7 @@ import cartRouter from './Routes/cartRoute.js';
 import addressRouter from './Routes/addressRoute.js';
 import PaymentRouter from './Routes/PaymentRoute.js';
 import contactUsRouter from './Routes/ContactUsRoute.js';
+import searchRoute from './Routes/searchRoute.js';
 // .env setup , here we give the path
 config({ path: '.env' })
 
@@ -54,6 +55,9 @@ app.use('/api/payment', PaymentRouter)
 // contact us
 // payment router
 app.use('/api/contact', contactUsRouter)
+
+//smart search
+app.use('/api/search', searchRoute)
 
 
 mongoose.connect(
